@@ -1,0 +1,23 @@
+:root {
+  --fg-main: #00FF00;
+  --fg-defocus: #008000;
+  
+  --bg-main: #000000;
+  --bg-focus: #001000;
+  
+  
+  --accent-primary: #80FF80;
+    --accent-primary-focus: #B0FFB0;
+    --accent-primary-defocus: #60FF60;
+  --accent-secondary: #00B000;
+    --accent-secondary-focus: #30B030;
+    --accent-secondary-defocus: #002000;
+  --accent-tertiary: #D0FFD0;
+    --accent-tertiary-focus: #E0FFE0;
+    --accent-tertiary-defocus: #204020;
+  
+  
+  --font-family: "Courier New";
+  --font-size: 12px;
+  --line-height: 1.2;
+}

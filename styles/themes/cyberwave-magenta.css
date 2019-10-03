@@ -1,0 +1,22 @@
+:root {
+  --fg-main: #FF00FF;
+  --fg-defocus: #B000B0;
+  
+  --bg-main: #000000;
+  --bg-focus: #200020;
+  
+  
+  --accent-primary: #00FFFF;
+    --accent-primary-focus: #80FFFF;
+    --accent-primary-defocus: #004040;
+  --accent-secondary: #00FF00;
+    --accent-secondary-focus: #40FF40;
+    --accent-secondary-defocus: #004000;
+  --accent-tertiary: #FF8000;
+    --accent-tertiary-focus: #FFA040;
+    --accent-tertiary-defocus: #401800;
+  
+  
+  --font-family: "White Rabbit";
+  --font-size: 14px;
+  --line-height: 3px;
