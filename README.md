@@ -1,5 +1,5 @@
-# TERMINATE
------------
+TERMINATE
+=========
 **TERMINATE** is a browser-based cracking game played through an emulated
 terminal modeled off of \*NIX. It's written entirely in the three vanilla web
 languages (HTML5/CSS3/ES2019), and will ideally be kept that way.

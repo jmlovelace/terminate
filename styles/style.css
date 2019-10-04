@@ -20,7 +20,7 @@ html, body {
   
   font-family: var(--font-family), monospace;
   font-size: var(--font-size);
-  line-height: var(--line-height);
+  line-height: calc(var(--line-height) + var(--font-size));
 }
 
 ::selection {
@@ -64,11 +64,7 @@ html, body {
 }
 
 #terminal-input-wrapper {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  
-  min-height: var(--font-size);
+  min-height: calc(var(--font-size) + var(--line-height));
   
   background-color: var(--bg-main);
   color: var(--fg-main);
@@ -98,6 +94,7 @@ html, body {
   
   /* Every modern browser *except* pre-Chromium Edge supports this property. */
   caret-color: currentColor;
+  white-space: wrap;
 }
 
 .terminal-entry {
@@ -106,7 +103,7 @@ html, body {
   padding: 0;
   
   display: block;
-  /*
-  min-height: calc(var(--font-size) + var(--line-height));
-  */
+  list-style-type: none;
+  
+  white-space: normal;
 }
