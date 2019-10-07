@@ -36,8 +36,10 @@ html, body {
     #terminal-input -- contenteditable span for the user to type in commands
     .terminal-entry -- #terminal-input, input logs, STDOUT/STDWRN/STDERR, etc.
 */
-#terminal {
-  display: flex;
+
+#terminal-wrapper {
+  overflow-y: scroll;
+  
   box-sizing: border-box;
   
   margin: 12px;
@@ -47,12 +49,7 @@ html, body {
   width: calc(100% - 24px);
   height: calc(100% - 24px);
   
-  
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: stretch;
-  
-  overflow-y: scroll;
+  position: relative;
   
   /* SCROLLBAR STYLING -- Here Be Dragons
        Due to terrible browser cross-compat, we're just gonna
@@ -61,6 +58,23 @@ html, body {
        
        do that
   */
+}
+
+#terminal {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  
+  width: calc(100% - 2em);
+  min-height: 100%;
+  height: min-content;
+  
+  display: flex;
+  overflow-y: visible;
+  
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
 }
 
 #terminal-input-wrapper {
@@ -97,6 +111,10 @@ html, body {
   white-space: wrap;
 }
 
+#terminal-input:focus {
+  border: none;
+}
+
 .terminal-entry {
   margin: 0;
   border: 0;
@@ -106,4 +124,8 @@ html, body {
   list-style-type: none;
   
   white-space: normal;
+}
+
+.terminal-entry:not(#terminal-input) {
+  overflow-anchor: none;
 }
