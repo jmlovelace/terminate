@@ -1,5 +1,3 @@
-'use strict';
-
 // Defines RWX permission values
 const PermissionOption = Object.freeze({
   INHERIT: -1,    // use permission value of parent

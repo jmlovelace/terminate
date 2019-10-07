@@ -16,6 +16,8 @@
     --accent-tertiary-focus: #FFA040;
     --accent-tertiary-defocus: #401800;
   
+  --warn: #FFFF00;
+  --error: #FF0000;
   
   --font-family: "White Rabbit";
   --font-size: 18px;

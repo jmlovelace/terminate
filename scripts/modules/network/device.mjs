@@ -1,4 +1,4 @@
-import {ANONYMOUS} from '../os/users.mjs'
+import {ANONYMOUS} from '../os/users.mjs';
 
 // Represents an individual computer on the network.
 // root should be a Directory representing the filesystem root folder.
@@ -11,7 +11,12 @@ class Machine {
     this.activeUser = ANONYMOUS;
   }
   
+  // TODO: Create a more semantic return value for success and failure
   login (username, password) {
-    if ()
+    if (this.users.get(username).password === password) {
+      this.activeUser = ANONYMOUS;
+      return true;
+    }
+    return false;
   }
 }

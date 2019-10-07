@@ -2,7 +2,7 @@ Each theme is a simple CSS file consisting of the :root pseudo-element and a
 set of variables defined within it.
 
 Variables:
-  Color Palette (13 variables):
+  Color Palette (15 variables):
     --fg-main                 most foreground content
     --fg-defocus              foreground content with less emphasis
     
@@ -16,7 +16,10 @@ Variables:
     
     --accent-<p|s|t>-focus    when the accent needs more emphasis or is selected
     --accent-<p|s|t>-defocus  when the accent is used for background purposes
-  
+    
+    --warn                    warning log color
+    --error                   error log color
+    
   Typography (2 variables):
     --font-family             the font to be used; fallback is default monospace
     --font-size               size of the font to be used; ideally in abs. units
@@ -32,7 +35,6 @@ Here's a template, ready to be filled with values.
   --bg-main: 
   --bg-focus: 
   
-  
   --accent-primary: 
     --accent-primary-focus: 
     --accent-primary-defocus: 
@@ -43,6 +45,8 @@ Here's a template, ready to be filled with values.
     --accent-tertiary-focus: 
     --accent-tertiary-defocus: 
   
+  --warn:
+  --error:
   
   --font-family: 
   --font-size: 
