@@ -31,6 +31,10 @@ class Directory extends File {
   constructor(filename, permissions) {
     super(filename, permissions);
     this.children = new Map();
+    
+    // Add relative filepath pointers -- this is done
+    this.children.set('.', this);
+    this.children.set('..', this.parent);
   }
   
   addFile(file) {

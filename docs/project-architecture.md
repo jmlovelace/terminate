@@ -39,6 +39,11 @@ where `player` is a `Player` object from **`scripts/player/player.mjs`**, and
 value should be a `Promise`.
 
 
+**`scripts/modules/game/`**
+--------
+This folder's modules handle the current state of the player and the game.
+
+
 **`scripts/modules/io/`**
 --------
 This folder's modules all handle taking and parsing input from the console, as
@@ -64,6 +69,10 @@ the files and such themselves, including those on the player's home machine.
 profile representing a user not currently logged in (`ANONYMOUS`).
 
 
-**`scripts/modules/player/`**
---------
-This folder's modules handle the current state of the player and the game.
+
+Media
+========
+Include **`media/music/`** in your local copy to hold the background music to
+the game. Inside it should be two directories, **`media/music/ambient`** and
+**`media/music/hardline`**, for the standard gameplay and "hacking mode" tracks,
+respectively.

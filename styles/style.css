@@ -101,6 +101,13 @@ html, body {
   border: 0;
   padding: 0;
   
+  background-color: var(--bg-main);
+  color: var(--fg-main);
+  
+  font-family: var(--font-family), monospace;
+  font-size: var(--font-size);
+  line-height: calc(var(--line-height) + var(--font-size));
+  
   display: inline-block;
   
   width: 100%;
