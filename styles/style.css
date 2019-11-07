@@ -75,6 +75,8 @@ html, body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: stretch;
+  
+  white-space: pre-wrap;
 }
 
 #terminal-input-wrapper {
@@ -115,7 +117,6 @@ html, body {
   
   /* Every modern browser *except* pre-Chromium Edge supports this property. */
   caret-color: currentColor;
-  white-space: wrap;
 }
 
 #terminal-input:focus {
@@ -129,8 +130,6 @@ html, body {
   
   display: block;
   list-style-type: none;
-  
-  white-space: normal;
 }
 
 .terminal-entry:not(#terminal-input) {
