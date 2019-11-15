@@ -2,7 +2,8 @@ HTML
 ========
 **`./index.html`** is the main page to be served, naturally. It should remain
 fairly spartan when not being used for testing, as it should ideally be
-populated by the JavaScript.
+populated by the JavaScript. (Note: this is one of the only times where saying
+that sentence with a straight face is okay.)
 
 Aside from that, there shouldn't be any standalone HTML files.
 
@@ -25,6 +26,9 @@ JavaScript
 different game aspects. Each file is an ES6 module with the file extension
 `**.mjs**`.
 
+**`config/`** also contains some configuration files for you to use. Set these
+yourself to best fit your hosting environment.
+
 
 **`scripts/modules/commands/`**
 --------
@@ -34,22 +38,24 @@ contain a single async function with the following signature:
 ```js
 export async function command(game, args) {}
 ```
-where `game` is a `Game` object from **`scripts/game/game.mjs`**, and **`args`**
+where `game` is the `Game` object from **`scripts/game/game.mjs`**, and `args`
 is a `String[]`, both passed from **`scripts/io/input.mjs`**. Its return value
 should be a `Promise`.
 
 
 **`scripts/modules/game/`**
 --------
-This folder's modules handle the current state of the player and the game.
+This folder's modules handle the current state of the player and the game, as
+well as helper logic. **`async.mjs`** handles timers, **`music.mjs`** handles
+the background music, and **`game.mjs`** holds the game's state.
 
 
 **`scripts/modules/io/`**
 --------
 This folder's modules all handle taking and parsing input from the console, as
-well as output to it. **`input.mjs`** will cover your standard input stream, as 
-well as parsing `Arguments`, and **`output.mjs`** will cover the standard
-output, warning, and error streams.
+well as output to it. **`input.mjs`** covers your standard input stream, as well
+as parsing arguments, and **`output.mjs`** covers the standard output, warning,
+and error streams.
 
 
 **`scripts/modules/network/`**
@@ -58,6 +64,7 @@ This folder's modules handle the in-game network, as well as all the machines
 on it. **`device.mjs`** represents an individual machine, representing its
 network identifiers, links to other devices, and OS & security details (held in
 **`scripts/modules/os/`** and **`scripts/modules/security/`**, respectively).
+**`internet.mjs`** holds a map of all the game's machines.
 
 
 **`scripts/modules/os/`**

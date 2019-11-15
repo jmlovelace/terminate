@@ -1,3 +1,5 @@
+import commands from './config/commands.mjs';
+
 // Defines RWX permission values
 const PermissionOption = Object.freeze({
   INHERIT: -1,    // use permission value of parent
@@ -32,7 +34,7 @@ class Directory extends File {
     super(filename, permissions);
     this.children = new Map();
     
-    // Add relative filepath pointers -- this is done
+    // Add relative filepath pointers
     this.children.set('.', this);
     this.children.set('..', this.parent);
   }
@@ -52,18 +54,19 @@ class Directory extends File {
 class Executable extends File {
   constructor(filename, permissions, program) {
     super(path, permissions);
-    this.program = program;
+    
+    this.program = program; // one of the functions in commands/
   }
   
-  run(argumentString) {
-    return this.program(argumentString);
+  run(game, argumentString) {
+    return this.program(game, argumentString);
   }
 }
 
 // Specifies a text file, which contains text that can be viewed and changed.
 class TextFile extends File {
-  constructor(path, permissions, text) {
-    super(path, permissions);
+  constructor(filename, permissions, text) {
+    super(filename, permissions);
     this.text = text;
   }
 }

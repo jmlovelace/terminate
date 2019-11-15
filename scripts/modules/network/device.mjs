@@ -14,9 +14,13 @@ class Machine {
   // TODO: Create a more semantic return value for success and failure
   login (username, password) {
     if (this.users.get(username).password === password) {
-      this.activeUser = ANONYMOUS;
+      this.activeUser = users.get(username);
       return true;
     }
     return false;
   }
+  
+  logout () {this.activeUser = ANONYMOUS;}
 }
+
+export default Machine;
