@@ -80,16 +80,24 @@ html, body {
 }
 
 #terminal-input-wrapper {
-  min-height: calc(var(--font-size) + var(--line-height));
+  height: calc(var(--font-size) + var(--line-height));
   
   background-color: var(--bg-main);
   color: var(--fg-main);
+  
+  display: flex;
+}
+
+#terminal-input-wrapper > * {
+  height: calc(var(--font-size) + var(--line-height));
 }
 
 #terminal-input-path {
   margin: 0;
   border: 0;
   padding: 0;
+  
+  white-space: pre;
 }
 
 .terminal-input-path-component {
@@ -110,10 +118,7 @@ html, body {
   font-size: var(--font-size);
   line-height: calc(var(--line-height) + var(--font-size));
   
-  display: inline-block;
-  
   width: 100%;
-  height: var(--font-size);
   
   /* Every modern browser *except* pre-Chromium Edge supports this property. */
   caret-color: currentColor;
