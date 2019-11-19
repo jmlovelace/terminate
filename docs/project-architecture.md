@@ -36,7 +36,7 @@ This folder's modules each represent the logic for a single \*nix-like "program"
 (e.g. `ls`) that can be invoked by **`scripts/io/input.mjs`**. Each one should
 contain a single async function with the following signature:
 ```js
-export async function command(game, args) {}
+export default async function command(game, args) {}
 ```
 where `game` is the `Game` object from **`scripts/game/game.mjs`**, and `args`
 is a `String[]`, both passed from **`scripts/io/input.mjs`**. Its return value

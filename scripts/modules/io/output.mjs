@@ -2,8 +2,8 @@
     // Type is going to be your output stream ('log', 'warn', or 'err')
 class Entry {
   constructor (type) {
-    this.element = document.createElement(div);
-    element.className = 'terminal-entry ' + type;
+    this.element = document.createElement('div');
+    this.element.className = 'terminal-entry ' + type;
   }
   
   // Fills the entry with content.
@@ -14,17 +14,20 @@ class Entry {
   
   // Pushes the filled element to the on-screen terminal.
   publish () {
-    document.getElementById('terminal')
-      .insertBefore(this.element, 'terminal-input-wrapper');
+    document.getElementById('terminal').insertBefore(
+      this.element, document.getElementById('terminal-input-wrapper')
+    );
   }
 }
 
 
 
 const Terminal = {
-  log: message => {new Entry('log').populate(message).publish()}
+  log: message => {new Entry('log').populate(message).publish()},
   
-  warn: message => {new Entry('warn').populate(message).publish()}
+  warn: message => {new Entry('warn').populate(message).publish()},
   
   error: message => {new Entry('err').populate(message).publish()}
 };
+
+export default Terminal;

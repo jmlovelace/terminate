@@ -1,10 +1,12 @@
-import {checkIfEnter as getInput} from './scripts/modules/io/input.mjs';
-import Game from './scripts/modules/game/game.mjs';
+import {trapFocus, processKeystrokes as getInput} from './modules/io/input.mjs';
+import Game from './modules/game/game.mjs';
 
 let game = new Game();
+let termInput;
 
-document.onload = () => {
-  let termInput = document.getElementById('terminal-input');
+document.onload = (() => {
+  termInput = document.getElementById('terminal-input');
+  
+  document.onkeydown = (event) => trapFocus(event, termInput);
   termInput.onkeydown = (key) => getInput(key, game, termInput);
-  termInput.onblur = () => lockFocus(termInput);
-};
+})();

@@ -1,4 +1,4 @@
-import {ANONYMOUS} from './scripts/modules/os/users.mjs';
+import {ANONYMOUS} from '../os/users.mjs';
 
 // Represents an individual computer on the network.
 // root should be a Directory representing the filesystem root folder.

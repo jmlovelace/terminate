@@ -2,30 +2,32 @@
 
 // Kehehe.
 
-import Internet from './scripts/modules/network/internet.mjs';
-import Machine from './scripts/modules/network/device.mjs';
-import * from './scripts/modules/os/filesystem.mjs';
-import ANONYMOUS from './scripts/modules/os/users.mjs';
-import commands from './config/commands.mjs';
+import Internet from '../network/internet.mjs';
+import Machine from '../network/device.mjs';
+import * as FileSystem  from '../os/filesystem.mjs';
+import {ANONYMOUS} from '../os/users.mjs';
+import commands from '../../../config/commands.mjs';
 
 // This helper function will create a basic *NIX file tree.
 let rootOnlyPermissions = () => {
   let out = new Map();
-  out.set(ANONYMOUS, new Permission(
-    PermissionOption.DISALLOWED,
-    PermissionOption.DISALLOWED,
-    PermissionOption.DISALLOWED,
+  out.set(ANONYMOUS, new FileSystem.Permission(
+    FileSystem.PermissionOption.DISALLOWED,
+    FileSystem.PermissionOption.DISALLOWED,
+    FileSystem.PermissionOption.DISALLOWED,
   ));
   return out;
 }
 
 let fileTreeSkeleton = () => {
-  let root = new Directory('', rootOnlyPermissions());
-  root.addFile(new Directory('bin', rootOnlyPermissions()));
-  root.addFile(new Directory('boot', rootOnlyPermissions()));
-  root.addFile(new Directory('home', rootOnlyPermissions()));
-  root.addFile(new Directory('var', rootOnlyPermissions()));
-    root.children.get('var').addFile(new Directory('log', rootOnlyPermissions()));
+  let root = new FileSystem.Directory('', rootOnlyPermissions());
+  root.addFile(new FileSystem.Directory('bin', rootOnlyPermissions()));
+  root.addFile(new FileSystem.Directory('boot', rootOnlyPermissions()));
+  root.addFile(new FileSystem.Directory('home', rootOnlyPermissions()));
+  root.addFile(new FileSystem.Directory('var', rootOnlyPermissions()));
+  root.children.get('var')
+    .addFile(new FileSystem.Directory('log', rootOnlyPermissions()));
+  return root;
 }
 
 class Game {
@@ -66,11 +68,13 @@ class Game {
     AddPrograms: {
       // This block is executed just like any other statement, but by using it,
       // we can help avoid cluttering the constructor with more local var names.
-      let bin = localhost.get('').children.get('bin');
+      let bin = this.localhost.root.children.get('bin');
       
-      bin.children.set('echo', new Executable(
-        'echo', rootOnlyPermissions(), commands.echo
+      bin.children.set('echo', new FileSystem.Executable(
+        'echo', rootOnlyPermissions(), 'echo'
       ));
+      
+      console.log(commands.get('echo'));
     }
     
     

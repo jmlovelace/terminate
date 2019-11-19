@@ -1,4 +1,4 @@
-import commands from './config/commands.mjs';
+import commands from '../../../config/commands.mjs';
 
 // Defines RWX permission values
 const PermissionOption = Object.freeze({
@@ -53,12 +53,13 @@ class Directory extends File {
 // The function itself is stored as the program property.
 class Executable extends File {
   constructor(filename, permissions, program) {
-    super(path, permissions);
+    super(filename, permissions);
     
-    this.program = program; // one of the functions in commands/
+    this.program = commands.get(program); // one of the functions in commands/
   }
   
   run(game, argumentString) {
+    console.log(this.program);
     return this.program(game, argumentString);
   }
 }
