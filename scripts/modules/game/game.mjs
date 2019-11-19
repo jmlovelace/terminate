@@ -8,7 +8,8 @@ import * as FileSystem  from '../os/filesystem.mjs';
 import {ANONYMOUS} from '../os/users.mjs';
 import commands from '../../../config/commands.mjs';
 
-// This helper function will create a basic *NIX file tree.
+
+// This helper creates a file permissions map that locks everything by default.
 let rootOnlyPermissions = () => {
   let out = new Map();
   out.set(ANONYMOUS, new FileSystem.Permission(
@@ -19,6 +20,7 @@ let rootOnlyPermissions = () => {
   return out;
 }
 
+// This helper function will create a basic *NIX-like file tree.
 let fileTreeSkeleton = () => {
   let root = new FileSystem.Directory('', rootOnlyPermissions());
   root.addFile(new FileSystem.Directory('bin', rootOnlyPermissions()));
@@ -30,18 +32,19 @@ let fileTreeSkeleton = () => {
   return root;
 }
 
+// This object holds the game's global state.
 class Game {
   constructor () {
-    // At first there was nothing. And so the Constructor made the universe.
+    // Set initial state variables
     this.activeDirectory; // Directory object
     this.activeMachine;   // Machine object
     this.internet;        // Internet object
     this.localhost;       // Machine object
-    
-    // In the first block, the Constructor created the online world...
+
+    // Initialize the game's Internet object, which will hold its machines
     this.internet = new Internet();
     
-    // In the second, because It needed a home, it created the local machine.
+    // Populates the Internet object with the user's local machine
     this.internet.set(new Machine(
       'localhost',
       '127.0.0.1',
@@ -56,26 +59,22 @@ class Game {
       })()
     ));
     
+    // Marks the new machine as the user's.
     this.localhost = this.internet.get('127.0.0.1');
     
+    // Initializes the user as the machine's admin and sets their directory to
+    // the machine's root folder.
     this.localhost.login('root', '');
     this.activeDirectory = this.localhost.root;
     
-    // ...complemented by a beer volcano.
-    console.log('Beer volcano successfully deployed.');
+    // Loads the user's initial commands onto their machine.
+    let bin = this.localhost.root.children.get('bin');
     
-    // In the third, It created a batch of programs, which it named SUS.
-    AddPrograms: {
-      // This block is executed just like any other statement, but by using it,
-      // we can help avoid cluttering the constructor with more local var names.
-      let bin = this.localhost.root.children.get('bin');
-      
-      bin.children.set('echo', new FileSystem.Executable(
-        'echo', rootOnlyPermissions(), 'echo'
-      ));
-      
-      console.log(commands.get('echo'));
-    }
+    bin.children.set('echo', new FileSystem.Executable(
+      'echo', rootOnlyPermissions(), 'echo'
+    ));
+    
+    console.log(commands.get('echo'));
     
     
   }

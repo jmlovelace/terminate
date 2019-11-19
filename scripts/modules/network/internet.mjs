@@ -1,4 +1,4 @@
-// yep, the whole thing.
+// This class holds all the machines in a given game.
 class Internet {
   constructor () {
     this.dns = new Map();

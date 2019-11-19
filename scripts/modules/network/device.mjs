@@ -7,11 +7,12 @@ class Machine {
     this.hostname = hostname;
     this.ip = ip;
     this.root = rootDirectory;
-    this.users = userMap;
+    this.users = userMap;   // Holds a username/password map of user credentials
     this.activeUser = ANONYMOUS;
   }
   
   // TODO: Create a more semantic return value for success and failure
+  // Attempts to login to the machine with the provided credentials.
   login (username, password) {
     if (this.users.get(username).password === password) {
       this.activeUser = users.get(username);
@@ -20,6 +21,7 @@ class Machine {
     return false;
   }
   
+  // Logs out of the machine (by resetting its active user to the default).
   logout () {this.activeUser = ANONYMOUS;}
 }
 

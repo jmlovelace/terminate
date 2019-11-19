@@ -39,11 +39,13 @@ class Directory extends File {
     this.children.set('..', this.parent);
   }
   
+  // Marks an existing file as a child of this directory.
   addFile(file) {
     file.parent = this;
     this.children.set(file.filename, file);
   }
   
+  // Unmarks the file as a child.
   removeFile(file) {
     this.children.delete(file.filename);
   }
@@ -58,6 +60,7 @@ class Executable extends File {
     this.program = commands.get(program); // one of the functions in commands/
   }
   
+  // Executes the command held by this file.
   run(game, argumentString) {
     console.log(this.program);
     return this.program(game, argumentString);

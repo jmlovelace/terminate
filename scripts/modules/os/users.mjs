@@ -6,7 +6,7 @@ class User {
   }
 }
 
-// "default" user for system where you're logged in
+// "Default" user for systems where you're not logged in.
 const ANONYMOUS = new User('anonymous', '');
 
 export {User, ANONYMOUS};

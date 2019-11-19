@@ -21,7 +21,8 @@ class Entry {
 }
 
 
-
+// The object that'll actually receive any output and give it the appropriate
+// class.
 const Terminal = {
   log: message => {new Entry('log').populate(message).publish()},
   
