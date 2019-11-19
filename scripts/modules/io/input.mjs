@@ -1,3 +1,7 @@
+function lockFocus (element) {
+  element.focus({preventScroll: true});
+}
+
 async function checkIfEnter (key, game, element) {
   if (key.code === 'Enter') execute(game, element);
 }
