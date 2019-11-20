@@ -5,9 +5,8 @@
 import Internet from '../network/internet.mjs';
 import Machine from '../network/device.mjs';
 import * as FileSystem  from '../os/filesystem.mjs';
-import {ANONYMOUS} from '../os/users.mjs';
+import {User, ANONYMOUS} from '../os/users.mjs';
 import commands from '../../../config/commands.mjs';
-
 
 // This helper creates a file permissions map that locks everything by default.
 let rootOnlyPermissions = () => {
@@ -58,7 +57,7 @@ class Game {
       // These 5 lines all form a single expression, yielding its return value.
       (()=>{
         let out = new Map();
-        out.set('root', '');
+        out.set('root', new User('root', ''));
         return out;
       })()
     ));
@@ -69,6 +68,7 @@ class Game {
     // Initializes the user as the machine's admin and sets their directory to
     // the machine's root folder.
     this.localhost.login('root', '');
+    this.activeMachine = this.localhost;
     this.activeDirectory = this.localhost.root;
     
     // Loads the user's initial commands onto their machine.
@@ -77,10 +77,6 @@ class Game {
     bin.children.set('echo', new FileSystem.Executable(
       'echo', rootOnlyPermissions(), 'echo'
     ));
-    
-    console.log(commands.get('echo'));
-    
-    
   }
 }
 

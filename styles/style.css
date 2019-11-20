@@ -181,6 +181,13 @@ html, body {
 
 .history {
   color: var(--main-fg);
+  display: flex;
+  height: calc(var(--font-size) + var(--line-height));
+  overflow-y: hidden;
+}
+
+.history > * {
+  height: calc(var(--font-size) + var(--line-height));
 }
 
 .history-path {

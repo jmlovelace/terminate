@@ -15,7 +15,7 @@ class Machine {
   // Attempts to login to the machine with the provided credentials.
   login (username, password) {
     if (this.users.get(username).password === password) {
-      this.activeUser = users.get(username);
+      this.activeUser = this.users.get(username);
       return true;
     }
     return false;

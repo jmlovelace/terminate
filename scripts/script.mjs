@@ -1,4 +1,5 @@
 import {trapFocus, processKeystrokes as getInput} from './modules/io/input.mjs';
+import {InputPrefix, refreshInputPrefix} from './modules/io/output.mjs';
 import Game from './modules/game/game.mjs';
 
 // Make our state object.
@@ -14,4 +15,7 @@ document.onload = (() => {
   
   // This handler makes termInput function as the primary input.
   termInput.onkeydown = (key) => getInput(key, game, termInput);
+  
+  // Initialize our basic UI.
+  refreshInputPrefix(new InputPrefix(game).element);
 })();

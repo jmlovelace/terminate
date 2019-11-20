@@ -8,7 +8,7 @@ class Entry {
   
   // Fills the entry with content.
   populate (contents) {
-    this.element.innerText = contents;
+    this.element.append(contents);
     return this; // For your chaining convenience.
   }
   
@@ -24,9 +24,8 @@ class Entry {
 class HistoryEntry extends Entry {
   constructor (prefix, command) {
     super('history');
-    let prefix.className += '.history-path ';
-    this.appendChild(prefix);
-    this.appendChild(command);
+    prefix.className += '.history-path ';
+    this.element.append(prefix, command);
   }
 }
 
@@ -45,6 +44,7 @@ class InputPrefixComponent {
 class InputPrefix {
   constructor (game) {
     let username = game.activeMachine.activeUser.username;
+      console.log(username);
     let hostname = game.activeMachine.hostname;
     
     let path = '';
@@ -58,7 +58,7 @@ class InputPrefix {
     let elements = [
       new InputPrefixComponent(
         'path-user-at-host',
-        ((username !== ANONYMOUS) ? username + '@' : '') + hostname
+        ((username !== 'anonymous') ? username + '@' : '') + hostname
       ),
       
       new InputPrefixComponent('path-deco', ':'),
@@ -74,7 +74,7 @@ class InputPrefix {
     this.element = document.createElement('div');
     this.element.className = 'path';
     
-    for (let node of elements) this.element.appendChild(node);
+    for (let node of elements) this.element.append(node.element);
   }
 }
 
@@ -91,9 +91,13 @@ const Terminal = {
 };
 
 const refreshInputPrefix = prefix => {
-  document.getElementById('terminal-input-path')
-    .getElementsByClassName('path')[0].replaceWith(prefix);
+  try {
+    document.getElementById('terminal-input-path')
+      .getElementsByClassName('path')[0].replaceWith(prefix);
+  } catch (typeError) { // If it hasn't been initialized yet
+    document.getElementById('terminal-input-path').append(prefix);
+  }
 }
 
 export default Terminal;
-export InputPrefix;
+export {Terminal, InputPrefix, refreshInputPrefix};
