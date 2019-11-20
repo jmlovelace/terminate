@@ -38,9 +38,13 @@ class Game {
     // Set initial state variables
     this.activeDirectory; // Directory object
     this.activeMachine;   // Machine object
+    this.commandHistory;  // Array
     this.internet;        // Internet object
     this.localhost;       // Machine object
-
+    
+    // Initialize the game's command history, which will hold user inputs
+    this.commandHistory = [];
+    
     // Initialize the game's Internet object, which will hold its machines
     this.internet = new Internet();
     

@@ -62,7 +62,6 @@ class Executable extends File {
   
   // Executes the command held by this file.
   run(game, argumentString) {
-    console.log(this.program);
     return this.program(game, argumentString);
   }
 }

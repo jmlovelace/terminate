@@ -76,6 +76,20 @@ the files and such themselves, including those on the player's home machine.
 profile representing a user not currently logged in (`ANONYMOUS`).
 
 
+**`config/`**
+--------
+This folder's modules handle the configuration of the game.
+
+Comments in each will walk you through how to set them up.
+
+**`commands.mjs`** is where the modules in the **`scripts/modules/commands/`**
+directory are loaded; this shouldn't need end-user modification unless you start
+adding your own.
+
+**`tracks.mjs`** is where the music in the **`media/music/`** directory is
+loaded; it's not an essential file to set up, and will not come preconfigured
+(as the game does not come with music by default).
+
 
 Media
 ========

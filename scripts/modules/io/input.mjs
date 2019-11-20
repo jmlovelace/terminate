@@ -1,4 +1,4 @@
-import Terminal from './output.mjs';
+import {Terminal, InputPrefix} from './output.mjs';
 
 // This function will redirect all events of the element and category it's
 // assigned to and redirect them to targetElement.
@@ -13,6 +13,8 @@ async function processKeystrokes (key, game, element) {
 
 // This function handles the command contained by the element, then clears it.
 async function execute (game, element) {
+  Terminal.history(new InputPrefix(game).element, element.value);
+  game.history.unshift(element.value)
   let args = element.value.split(' ');
   element.value = '';
   
@@ -25,7 +27,7 @@ async function execute (game, element) {
   ) { // Catches attempts to run commands that don't exist
     Terminal.error(args[0] + ': command not found.');
   } else {
-    executable.run(game, args);
+    executable.run(game, args).then();
   }
 }
 

@@ -100,11 +100,35 @@ html, body {
   white-space: pre;
 }
 
-.terminal-input-path-component {
+.path {
   margin: 0;
   border: 0;
   padding: 0;
+  white-space: pre;
 }
+
+.path-component {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  white-space: pre;
+}
+
+  /* The user@host portion of the input prefix*/
+  .path-user-at-host {
+    color: var(--accent-tertiary);
+  }
+  
+  /* The directory portion of the input prefix */
+  .path-directory {
+    color: var(--accent-secondary);
+  }
+  
+  /* The separator characters (: $ #) in the input prefix */
+  .path-deco {
+    color: var(--main-fg);
+  }
+
 
 #terminal-input {
   margin: 0;
@@ -151,4 +175,17 @@ html, body {
 
 .error {
   color: var(--error);
+}
+
+
+
+.history {
+  color: var(--main-fg);
+}
+
+.history-path {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  white-space: pre;
 }

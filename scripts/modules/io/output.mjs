@@ -8,7 +8,7 @@ class Entry {
   
   // Fills the entry with content.
   populate (contents) {
-    this.element.innerHTML = contents;
+    this.element.innerText = contents;
     return this; // For your chaining convenience.
   }
   
@@ -20,6 +20,63 @@ class Entry {
   }
 }
 
+// Generates the base element specifically for logging commands.
+class HistoryEntry extends Entry {
+  constructor (prefix, command) {
+    super('history');
+    let prefix.className += '.history-path ';
+    this.appendChild(prefix);
+    this.appendChild(command);
+  }
+}
+
+// Generates individual pieces of the input prefix (user@host: /path/ $ )
+  // Type is going to be a path class ('path-user-at-host', 'path-directory,' or
+  // 'path-deco').
+class InputPrefixComponent {
+  constructor (type, contents) {
+    this.element = document.createElement('span');
+    this.element.className = 'path-component ' + type;
+    this.element.innerText = contents;
+  }
+}
+
+// Generates the input prefix (user@host: /path/ $ ) appropriate for the state.
+class InputPrefix {
+  constructor (game) {
+    let username = game.activeMachine.activeUser.username;
+    let hostname = game.activeMachine.hostname;
+    
+    let path = '';
+    
+    let workingDir = game.activeDirectory;
+    while (workingDir !== null) {
+      path = workingDir.filename + '/' + path;
+      workingDir = workingDir.parent;
+    }
+    
+    let elements = [
+      new InputPrefixComponent(
+        'path-user-at-host',
+        ((username !== ANONYMOUS) ? username + '@' : '') + hostname
+      ),
+      
+      new InputPrefixComponent('path-deco', ':'),
+      
+      new InputPrefixComponent('path-directory', path),
+      
+      new InputPrefixComponent(
+        'path-deco',
+        ((username === 'root') ? ' # ':' $ ')
+      )
+    ];
+    
+    this.element = document.createElement('div');
+    this.element.className = 'path';
+    
+    for (let node of elements) this.element.appendChild(node);
+  }
+}
 
 // The object that'll actually receive any output and give it the appropriate
 // class.
@@ -28,7 +85,15 @@ const Terminal = {
   
   warn: message => {new Entry('warn').populate(message).publish()},
   
-  error: message => {new Entry('err').populate(message).publish()}
+  error: message => {new Entry('err').populate(message).publish()},
+  
+  history: (prefix, command) => {new HistoryEntry(prefix, command).publish()}
 };
 
+const refreshInputPrefix = prefix => {
+  document.getElementById('terminal-input-path')
+    .getElementsByClassName('path')[0].replaceWith(prefix);
+}
+
 export default Terminal;
+export InputPrefix;
