@@ -9,12 +9,29 @@ function trapFocus (event, targetElement) {
 // This function is used to pass the contents of an input field as a command.
 async function processKeystrokes (key, game, element) {
   if (key.code === 'Enter') execute(game, element);
+  if (key.code === 'ArrowUp') browseHistory(game, element, 1);
+  if (key.code === 'ArrowDown') browseHistory(game, element, -1);
+}
+
+// This function allows a user to navigate their previous commands.
+function browseHistory (game, element, addToIndex) {
+  game.commandHistoryIndex += addToIndex;
+  
+  if (game.commandHistoryIndex < -1) game.commandHistoryIndex = -1;
+  if (game.commandHistoryIndex >= game.commandHistory.length) game.commandHistoryIndex = game.commandHistory.length - 1;
+  
+  if (game.commandHistoryIndex === -1) {
+    element.value = '';
+  } else {
+    element.value = game.commandHistory[game.commandHistoryIndex];
+  }
 }
 
 // This function handles the command contained by the element, then clears it.
 async function execute (game, element) {
   Terminal.history(new InputPrefix(game).element, element.value);
-  game.commandHistory.unshift(element.value)
+  game.commandHistory.unshift(element.value); // Add to the beginning
+  game.commandHistoryIndex = -1; // Reset
   let args = element.value.split(' ');
   element.value = '';
   

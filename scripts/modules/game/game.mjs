@@ -35,14 +35,16 @@ let fileTreeSkeleton = () => {
 class Game {
   constructor () {
     // Set initial state variables
-    this.activeDirectory; // Directory object
-    this.activeMachine;   // Machine object
-    this.commandHistory;  // Array
-    this.internet;        // Internet object
-    this.localhost;       // Machine object
+    this.activeDirectory;     // Directory object
+    this.activeMachine;       // Machine object
+    this.commandHistory;      // Array
+    this.commandHistoryIndex; // Int
+    this.internet;            // Internet object
+    this.localhost;           // Machine object
     
     // Initialize the game's command history, which will hold user inputs
     this.commandHistory = [];
+    this.commandHistoryIndex = -1;
     
     // Initialize the game's Internet object, which will hold its machines
     this.internet = new Internet();
@@ -77,6 +79,11 @@ class Game {
     bin.children.set('echo', new FileSystem.Executable(
       'echo', rootOnlyPermissions(), 'echo'
     ));
+    bin.children.set('cd', new FileSystem.Executable(
+      'cd', rootOnlyPermissions(), 'cd'
+    ));
+    
+    console.log(this.activeMachine.root);
   }
 }
 

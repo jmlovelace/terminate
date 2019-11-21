@@ -44,7 +44,6 @@ class InputPrefixComponent {
 class InputPrefix {
   constructor (game) {
     let username = game.activeMachine.activeUser.username;
-      console.log(username);
     let hostname = game.activeMachine.hostname;
     
     let path = '';

@@ -42,6 +42,7 @@ class Directory extends File {
   // Marks an existing file as a child of this directory.
   addFile(file) {
     file.parent = this;
+    file.children.set('..', file.parent);
     this.children.set(file.filename, file);
   }
   
