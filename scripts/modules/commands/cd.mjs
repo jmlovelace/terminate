@@ -3,13 +3,7 @@ import Terminal from '../io/output.mjs';
 // This command, cd, changes the current working directory.
 export default async function command(game, args) {
   let workingDirectory;
-  let directories = args[1].trim()
-  
-  // Added a special case due to how String.prototype.split() works
-  if (directories === '/') {
-    game.activeDirectory = game.activeMachine.root;
-    return;
-  }
+  let directories = args[1].trim();
   
   directories = directories.split('/');
   
@@ -20,10 +14,9 @@ export default async function command(game, args) {
     workingDirectory = game.activeDirectory;
   }
   
-  console.log();
-  
   for (let directory of directories) {
-    console.log('Target directory: ' + directory);
+    if (directory === '') continue; // skip blank tokens (String.split() may give these)
+    
     workingDirectory = workingDirectory.children.get(directory);
     if (workingDirectory === undefined) {
       Terminal.log('cd: ' + args[1] + ': No such file or directory');

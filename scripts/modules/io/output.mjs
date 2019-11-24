@@ -1,9 +1,20 @@
 // Generates the base empty element for a console output.
-    // Type is going to be your output stream ('log', 'warn', or 'err')
+    // type is going to be your output stream ('log', 'warn', or 'err')
+    // stylesObj, if provided, will be an object with CSS property key/vals
 class Entry {
-  constructor (type) {
+  constructor (type, stylesObj) {
     this.element = document.createElement('div');
     this.element.className = 'terminal-entry ' + type;
+    
+    if (stylesObj !== undefined) {
+      console.log(stylesObj)
+      
+      let s = this.element.style;
+      
+      for (let style of Object.keys(stylesObj)) {
+        s[style] = stylesObj[style];
+      }
+    }
   }
   
   // Fills the entry with content.
@@ -79,12 +90,12 @@ class InputPrefix {
 
 // The object that'll actually receive any output and give it the appropriate
 // class.
-const Terminal = {
-  log: message => {new Entry('log').populate(message).publish()},
+const Terminal = { // styles is an optional stylesObj (listed w/ default val undefined to clarify)
+  log: (message, styles=undefined) => {new Entry('log', styles).populate(message).publish()},
   
-  warn: message => {new Entry('warn').populate(message).publish()},
+  warn: (message, styles=undefined) => {new Entry('warn', styles).populate(message).publish()},
   
-  error: message => {new Entry('err').populate(message).publish()},
+  error: (message, styles=undefined) => {new Entry('err', styles).populate(message).publish()},
   
   history: (prefix, command) => {new HistoryEntry(prefix, command).publish()}
 };

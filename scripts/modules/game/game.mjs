@@ -82,6 +82,9 @@ class Game {
     bin.children.set('cd', new FileSystem.Executable(
       'cd', rootOnlyPermissions(), 'cd'
     ));
+    bin.children.set('ls', new FileSystem.Executable(
+      'ls', rootOnlyPermissions(), 'ls'
+    ));
     
     console.log(this.activeMachine.root);
   }
