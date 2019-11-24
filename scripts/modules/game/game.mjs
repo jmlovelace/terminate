@@ -76,17 +76,10 @@ class Game {
     // Loads the user's initial commands onto their machine.
     let bin = this.localhost.root.children.get('bin');
     
-    bin.children.set('echo', new FileSystem.Executable(
-      'echo', rootOnlyPermissions(), 'echo'
-    ));
-    bin.children.set('cd', new FileSystem.Executable(
-      'cd', rootOnlyPermissions(), 'cd'
-    ));
-    bin.children.set('ls', new FileSystem.Executable(
-      'ls', rootOnlyPermissions(), 'ls'
-    ));
-    
-    console.log(this.activeMachine.root);
+    bin.addFile(new FileSystem.Executable('echo', rootOnlyPermissions(), 'echo'));
+    bin.addFile(new FileSystem.Executable('cd', rootOnlyPermissions(), 'cd'));
+    bin.addFile(new FileSystem.Executable('ls', rootOnlyPermissions(), 'ls'));
+    bin.addFile(new FileSystem.Executable('mv', rootOnlyPermissions(), 'mv'));
   }
 }
 
