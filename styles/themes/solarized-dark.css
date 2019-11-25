@@ -1,0 +1,25 @@
+:root {
+  --fg-main: #839496;
+  --fg-defocus: #6a7779;
+  
+  --bg-main: #002b36;
+  --bg-focus: #073642;
+  
+  
+  --accent-primary: #d33682;
+  --accent-primary-focus: #dc609c;
+  --accent-primary-defocus: #781e4b;
+  --accent-secondary: #268bd2;
+  --accent-secondary-focus: #2ea9fc;
+  --accent-secondary-defocus: #1e6fa8;
+  --accent-tertiary: #859900;
+  --accent-tertiary-focus: #9fb800;
+  --accent-tertiary-defocus: #5e6a00;
+  
+  --warn: #b58900;
+  --error: #dc322f;
+  
+  --font-family: "Courier New";
+  --font-size: 16px;
+  --line-height: 1.2;
+}
