@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "White Rabbit";
+  src: url(../../media/whiterabbit-webfont.ttf");
+}
+
 :root {
   --fg-main: #FF00FF;
   --fg-defocus: #B000B0;
