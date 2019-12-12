@@ -38,6 +38,8 @@ html, body {
 */
 
 #terminal-wrapper {
+  z-index: 0;
+  
   overflow-y: scroll;
   
   box-sizing: border-box;
@@ -195,4 +197,20 @@ html, body {
   border: 0;
   padding: 0;
   white-space: pre;
+}
+
+
+#terminal-overlay {
+  z-index: 1;
+  box-sizing: border-box;
+  
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  
+  pointer-events: none;
+  
+  overflow: hidden;
+  
+  color: var(--accent-tertiary);
 }

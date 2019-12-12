@@ -87,12 +87,13 @@ const resolvePath = (game, path, forceDirectory = false) => {
   let workingDirectory;
   let directories = path.trim();
   
+  if (directories === '') return null;
+  
   directories = directories.split('/');
   
   // forces final file to resolve its self-pointer, which'll throw if said file
   // isn't a directory. don't try this at home, kids.
   if (forceDirectory) directories.push('.');
-  
   if (directories[0] === '') {
     workingDirectory = game.activeMachine.root;
     directories.shift(); // remove the pointer to root

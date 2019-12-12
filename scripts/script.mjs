@@ -3,7 +3,7 @@ import {InputPrefix, refreshInputPrefix} from './modules/io/output.mjs';
 import Game from './modules/game/game.mjs';
 
 // Make our state object.
-let game = new Game();
+let game = new Game(/* Enable verbose logging: */ true);
 
 // We store this logic here to ensure that all the elements are loaded before
 // we try and modify them. Otherwise, they'll likely not exist yet.

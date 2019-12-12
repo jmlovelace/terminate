@@ -7,8 +7,6 @@ class Entry {
     this.element.className = 'terminal-entry ' + type;
     
     if (stylesObj !== undefined) {
-      console.log(stylesObj)
-      
       let s = this.element.style;
       
       for (let style of Object.keys(stylesObj)) {

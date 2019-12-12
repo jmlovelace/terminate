@@ -7,6 +7,7 @@ import Machine from '../network/device.mjs';
 import * as FileSystem  from '../os/filesystem.mjs';
 import {User, ANONYMOUS} from '../os/users.mjs';
 import commands from '../../../config/commands.mjs';
+import themes from '../../config/themes.mjs';
 
 // This helper creates a file permissions map that locks everything by default.
 let rootOnlyPermissions = () => {
@@ -33,7 +34,14 @@ let fileTreeSkeleton = () => {
 
 // This object holds the game's global state.
 class Game {
-  constructor () {
+  constructor (enableVerboseLogging) {
+    // Verbose Logging: prints extra data to the console for debugging purposes
+    this.verboseLogging = (enableVerboseLogging === true); // force bool true; false otherwise
+    
+    // DOM stuff
+    this.overlay = document.getElementById('terminal-overlay');
+    this.theme = themes.default;
+    
     // Set initial state variables
     this.activeDirectory;     // Directory object
     this.activeMachine;       // Machine object
@@ -81,6 +89,10 @@ class Game {
     bin.addFile(new FileSystem.Executable('ls', rootOnlyPermissions(), 'ls'));
     bin.addFile(new FileSystem.Executable('mv', rootOnlyPermissions(), 'mv'));
   }
+  
+  win () {}
+  
+  lose () {}
 }
 
 export default Game;

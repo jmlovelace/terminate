@@ -24,6 +24,7 @@ export default async function command(game, args) {
     dest = args[2].split('/');
     destName = dest.pop();
     dest = resolvePath(game, dest.join('/'));
+    if (dest === null) dest = resolvePath(game, '.');
     if (dest.children.get(destName) && dest.children.get(destName).constructor.name === 'Directory') {
       dest = dest.children.get(destName);
       destName = source.filename;
@@ -37,11 +38,7 @@ export default async function command(game, args) {
         throw e;
     }
   }
-  
-  console.log(source);
-  console.log(dest);
-  
-  source.parent.removeFile(source)
+  source.parent.removeFile(source);
   source.filename = destName;
   dest.addFile(source);
 }
