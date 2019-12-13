@@ -3,12 +3,13 @@ import {ANONYMOUS} from '../os/users.mjs';
 // Represents an individual computer on the network.
 // root should be a Directory representing the filesystem root folder.
 class Machine {
-  constructor (hostname, ip, rootDirectory, userMap) {
+  constructor (hostname, ip, rootDirectory, userMap, securityInfo) {
     this.hostname = hostname;
     this.ip = ip;
     this.root = rootDirectory;
     this.users = userMap;   // Holds a username/password map of user credentials
     this.activeUser = ANONYMOUS;
+    this.securityInfo = securityInfo;
   }
   
   // TODO: Create a more semantic return value for success and failure

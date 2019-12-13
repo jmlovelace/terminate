@@ -6,8 +6,11 @@ import Internet from '../network/internet.mjs';
 import Machine from '../network/device.mjs';
 import * as FileSystem  from '../os/filesystem.mjs';
 import {User, ANONYMOUS} from '../os/users.mjs';
-import commands from '../../../config/commands.mjs';
-import themes from '../../config/themes.mjs';
+import HardlineInfo from '../security/hardline.mjs';
+import Commands from '../../../config/commands.mjs';
+import Themes from '../../../config/themes.mjs';
+
+import Terminal from '../io/output.mjs'
 
 // This helper creates a file permissions map that locks everything by default.
 let rootOnlyPermissions = () => {
@@ -40,7 +43,8 @@ class Game {
     
     // DOM stuff
     this.overlay = document.getElementById('terminal-overlay');
-    this.theme = themes.default;
+    this.themes = Themes;
+    this.theme = this.themes.ambient;
     
     // Set initial state variables
     this.activeDirectory;     // Directory object
@@ -69,7 +73,8 @@ class Game {
         let out = new Map();
         out.set('root', new User('root', ''));
         return out;
-      })()
+      })(),
+      new HardlineInfo(this, 10)
     ));
     
     // Marks the new machine as the user's.
@@ -84,15 +89,29 @@ class Game {
     // Loads the user's initial commands onto their machine.
     let bin = this.localhost.root.children.get('bin');
     
-    bin.addFile(new FileSystem.Executable('echo', rootOnlyPermissions(), 'echo'));
     bin.addFile(new FileSystem.Executable('cd', rootOnlyPermissions(), 'cd'));
+    bin.addFile(new FileSystem.Executable('echo', rootOnlyPermissions(), 'echo'));
+    bin.addFile(new FileSystem.Executable('hardline', rootOnlyPermissions(), 'hardline'));
     bin.addFile(new FileSystem.Executable('ls', rootOnlyPermissions(), 'ls'));
     bin.addFile(new FileSystem.Executable('mv', rootOnlyPermissions(), 'mv'));
   }
   
-  win () {}
+  get theme() {
+    return this._theme;
+  }
   
-  lose () {}
+  set theme(value) {
+    this._theme = value;
+    document.getElementById('theme').setAttribute('href', this._theme);
+  }
+  
+  win () {
+    Terminal.warn("Win!");
+  }
+  
+  lose () {
+    Terminal.warn("Lose!");
+  }
 }
 
 export default Game;

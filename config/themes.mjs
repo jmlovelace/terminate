@@ -1,8 +1,15 @@
 let themes = {
-  themeDirectory: './styles/themes/',
-  fileExtension: '.css'
+  themeDirectory: './styles/themes/', // relative to index.html
+  fileExtension: '.css',
   
-  default: 'cyberwave-magenta'
+  list: [
+    './styles/themes/cyberwave-magenta.css',
+    './styles/themes/matrix.css',
+    './styles/themes/hardline.css'
+  ],
+  
+  ambient: './styles/themes/cyberwave-magenta.css',
+  hardline: './styles/themes/hardline.css'
 };
 
 export default themes;

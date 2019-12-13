@@ -208,6 +208,11 @@ html, body {
   width: 100vw;
   height: 100vh;
   
+  padding: 24px;
+  font-size: calc(var(--font-size) * 2);
+  font-weight: bold;
+  text-align: right;
+  
   pointer-events: none;
   
   overflow: hidden;

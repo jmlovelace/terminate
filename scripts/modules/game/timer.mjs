@@ -1,5 +1,6 @@
 class Timer {
   constructor(game, centiseconds, onStart, onUpdate, onEnd, onExpire) {
+    this.game = game;
     this.remaining = centiseconds; // (int) time left in hundredths of a second
     
     // Functions:
@@ -16,14 +17,14 @@ class Timer {
   }
   
   start () {
-    this.onStart(game);
+    this.onStart(this.game);
     this.countdown = setInterval(
       () => {
         this.remaining--;
-        this.onUpdate(game);
+        this.onUpdate(this.game);
         if (this.remaining <= 0) {
-          this.stop();
-          this.onExpire();
+          this.stop(this.game);
+          this.onExpire(this.game);
         }
       },
       10
@@ -33,13 +34,12 @@ class Timer {
   pause () {
     clearInterval(this.countdown);
     this.countdown = null;
-    this.onInterrupt(game);
   }
   
   stop () {
     this.pause();
     this.remaining = 0;
-    this.onEnd(game);
+    this.onEnd(this.game);
   }
 }
 

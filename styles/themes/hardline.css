@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "White Rabbit";
+  src: url(../../media/whiterabbit-webfont.ttf");
+}
+
+:root {
+  --fg-main: #F0A060;
+  --fg-defocus: #c48154;
+  
+  --bg-main: #100000;
+  --bg-focus: #201010;
+  
+  
+  --accent-primary: #FFFF00;
+    --accent-primary-focus: #FFFF70;
+    --accent-primary-defocus: #B0B020;
+  --accent-secondary: #8060FF;
+    --accent-secondary-focus: #6030FF;
+    --accent-secondary-defocus: #8860BB;
+  --accent-tertiary: #00FF40;
+    --accent-tertiary-focus: #00FF00;
+    --accent-tertiary-defocus: #40B020;
+  
+  --warn: #FF0080;
+  --error: #FF0000;
+  
+  --font-family: "White Rabbit";
+  --font-size: 18px;
+  --line-height: 0px;
+}
