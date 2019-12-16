@@ -63,7 +63,7 @@ class Executable extends File {
   
   // Executes the command held by this file.
   run(game, argumentString) {
-    return this.program(game, argumentString);
+    return this.program.execute(game, argumentString);
   }
 }
 
