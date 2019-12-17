@@ -65,6 +65,10 @@ class Executable extends File {
   run(game, argumentString) {
     return this.program.execute(game, argumentString);
   }
+  
+  getHelp() {
+    return this.program.help(this.filename);
+  }
 }
 
 // Specifies a text file, which contains text that can be viewed and changed.

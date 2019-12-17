@@ -1,6 +1,7 @@
 import Terminal from '../io/output.mjs';
 import {FileException, resolvePath} from '../os/filesystem.mjs';
 
+let command;
 // This command, cd, changes the current working directory.
 export default command = {
   execute: async (game, args) => {
@@ -23,5 +24,7 @@ export default command = {
 
   help: filename =>
 `${filename}: ${filename} <path>
-  Change the shell working directory.`;
+  Change the shell working directory.
+  
+  path: The path to the new directory.`
 }

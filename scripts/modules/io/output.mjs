@@ -105,6 +105,8 @@ const refreshInputPrefix = prefix => {
   } catch (typeError) { // If it hasn't been initialized yet
     document.getElementById('terminal-input-path').append(prefix);
   }
+  let wrapper = document.getElementById('terminal-wrapper');
+  wrapper.scrollTop = wrapper.scrollHeight;
 }
 
 export default Terminal;

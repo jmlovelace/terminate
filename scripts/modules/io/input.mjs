@@ -43,6 +43,7 @@ async function execute (game, element) {
     executable.constructor.name !== 'Executable'
   ) { // Catches attempts to run commands that don't exist
     Terminal.error(args[0] + ': command not found.');
+    refreshInputPrefix(new InputPrefix(game).element) // just to scroll proper
   } else {
     executable.run(game, args).then( // Change UI to match new state
       refreshInputPrefix(new InputPrefix(game).element)

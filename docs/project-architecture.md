@@ -34,13 +34,24 @@ yourself to best fit your hosting environment.
 --------
 This folder's modules each represent the logic for a single \*nix-like "program"
 (e.g. `ls`) that can be invoked by **`scripts/io/input.mjs`**. Each one should
-contain a single async function with the following signature:
+contain the following:
 ```js
-export default async function command(game, args) {}
+let command;
+
+export default command = {
+  execute: async (game, args) => {}, // actual command logic
+  
+  help: filename =>
+`${filename}: ${filename} ` // single template literal to be returned
+}
 ```
-where `game` is the `Game` object from **`scripts/game/game.mjs`**, and `args`
-is a `String[]`, both passed from **`scripts/io/input.mjs`**. Its return value
-should be a `Promise`.
+`execute` contains an async function that takes the `Game` object and an `args`
+String[] from **`modules/io/input.mjs`**. `args[0]` will always be the command's
+name as it was called from the terminal.
+
+`help` contains a simple arrow function that returns the String to be printed by
+the `help` command. It itself accepts a string that evaluates to the command's
+filename.
 
 
 **`scripts/modules/game/`**

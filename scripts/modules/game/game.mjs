@@ -2,38 +2,9 @@
 
 // Kehehe.
 
-import Internet from '../network/internet.mjs';
-import Machine from '../network/device.mjs';
-import * as FileSystem  from '../os/filesystem.mjs';
-import {User, ANONYMOUS} from '../os/users.mjs';
-import HardlineInfo from '../security/hardline.mjs';
-import Commands from '../../../config/commands.mjs';
+import MachineSetup from '../../../config/machines.mjs';
 import Themes from '../../../config/themes.mjs';
-
-import Terminal from '../io/output.mjs'
-
-// This helper creates a file permissions map that locks everything by default.
-let rootOnlyPermissions = () => {
-  let out = new Map();
-  out.set(ANONYMOUS, new FileSystem.Permission(
-    FileSystem.PermissionOption.DISALLOWED,
-    FileSystem.PermissionOption.DISALLOWED,
-    FileSystem.PermissionOption.DISALLOWED,
-  ));
-  return out;
-}
-
-// This helper function will create a basic *NIX-like file tree.
-let fileTreeSkeleton = () => {
-  let root = new FileSystem.Directory('', rootOnlyPermissions());
-  root.addFile(new FileSystem.Directory('bin', rootOnlyPermissions()));
-  root.addFile(new FileSystem.Directory('boot', rootOnlyPermissions()));
-  root.addFile(new FileSystem.Directory('home', rootOnlyPermissions()));
-  root.addFile(new FileSystem.Directory('var', rootOnlyPermissions()));
-  root.children.get('var')
-    .addFile(new FileSystem.Directory('log', rootOnlyPermissions()));
-  return root;
-}
+import Terminal from '../io/output.mjs';
 
 // This object holds the game's global state.
 class Game {
@@ -59,23 +30,7 @@ class Game {
     this.commandHistoryIndex = -1;
     
     // Initialize the game's Internet object, which will hold its machines
-    this.internet = new Internet();
-    
-    // Populates the Internet object with the user's local machine
-    this.internet.set(new Machine(
-      'localhost',
-      '127.0.0.1',
-      fileTreeSkeleton(),
-      
-      // This is an inline function that we run as soon as we declare it.
-      // These 5 lines all form a single expression, yielding its return value.
-      (()=>{
-        let out = new Map();
-        out.set('root', new User('root', ''));
-        return out;
-      })(),
-      new HardlineInfo(this, 10)
-    ));
+    this.internet = MachineSetup(this);
     
     // Marks the new machine as the user's.
     this.localhost = this.internet.get('127.0.0.1');
@@ -85,15 +40,6 @@ class Game {
     this.localhost.login('root', '');
     this.activeMachine = this.localhost;
     this.activeDirectory = this.localhost.root;
-    
-    // Loads the user's initial commands onto their machine.
-    let bin = this.localhost.root.children.get('bin');
-    
-    bin.addFile(new FileSystem.Executable('cd', rootOnlyPermissions(), 'cd'));
-    bin.addFile(new FileSystem.Executable('echo', rootOnlyPermissions(), 'echo'));
-    bin.addFile(new FileSystem.Executable('hardline', rootOnlyPermissions(), 'hardline'));
-    bin.addFile(new FileSystem.Executable('ls', rootOnlyPermissions(), 'ls'));
-    bin.addFile(new FileSystem.Executable('mv', rootOnlyPermissions(), 'mv'));
   }
   
   get theme() {

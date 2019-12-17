@@ -1,6 +1,8 @@
 import Terminal from '../io/output.mjs';
 
-export default command {
+let command;
+
+export default command = {
   execute: async (game, args) => {
     let target = game.internet.get(args[1]);
     if (!target) target = game.internet.get(game.internet.resolve(args[1]));
@@ -10,11 +12,13 @@ export default command {
       return;
     }
     
-    target.securityInfo.timer.start();
+    target.securityInfo.startHardline();
   },
   
   help: filename =>
 `${filename}: ${filename} <[hostname|ip]|[--disconnect|-d]>
-  Establishes a direct hardline connection to a given host, or closes the active
-`;
+  Establishes a hardline connection to a given host, or closes the active one.
+  
+  Specify either the hostname or the IP of the machine to open a hardline to it,
+  or --disconnect (abbrev. -d) to close the currently active hardline.`
 }
