@@ -1,3 +1,4 @@
+import {getPathOf} from '../os/filesystem.mjs';
 // Generates the base empty element for a console output.
     // type is going to be your output stream ('log', 'warn', or 'err')
     // stylesObj, if provided, will be an object with CSS property key/vals
@@ -58,13 +59,7 @@ class InputPrefix {
     let username = game.activeMachine.activeUser.username;
     let hostname = game.activeMachine.hostname;
     
-    let path = '';
-    
-    let workingDir = game.activeDirectory;
-    while (workingDir !== null) {
-      path = workingDir.filename + '/' + path;
-      workingDir = workingDir.parent;
-    }
+    let path = getPathOf(game.activeDirectory);
     
     let elements = [
       new InputPrefixComponent(
@@ -96,7 +91,7 @@ const Terminal = { // styles is an optional stylesObj (listed w/ default val und
   
   warn: (message, styles=undefined) => new Entry('warn', styles).populate(message).publish(),
   
-  error: (message, styles=undefined) => new Entry('err', styles).populate(message).publish(),
+  error: (message, styles=undefined) => new Entry('error', styles).populate(message).publish(),
   
   history: (prefix, command) => new HistoryEntry(prefix, command).publish()
 };

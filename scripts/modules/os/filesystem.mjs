@@ -26,6 +26,10 @@ class File {
     this.filename = filename; // last slash-delimited token
     this.permissions = permissions;
   }
+  
+  copyOf () {
+    return new this.constructor(this.filename, this.permissions);
+  }
 }
 
 // Specifies a directory, which holds other files.
@@ -69,6 +73,10 @@ class Executable extends File {
   getHelp() {
     return this.program.help(this.filename);
   }
+  
+  copyOf () {
+    return new this.constructor(this.filename, this.permissions, this.program);
+  }
 }
 
 // Specifies a text file, which contains text that can be viewed and changed.
@@ -76,6 +84,10 @@ class TextFile extends File {
   constructor(filename, permissions, text) {
     super(filename, permissions);
     this.text = text;
+  }
+  
+  copyOf () {
+    return new this.constructor(this.filename, this.permissions, this.text);
   }
 }
 
@@ -122,6 +134,18 @@ const resolvePath = (game, path, forceDirectory = false) => {
   return workingDirectory;
 }
 
+const getPathOf = file => {
+  let working = file;
+  let out = [];
+  
+  while (working !== null) {
+    out.unshift(working.filename);
+    working = working.parent;
+  }
+  
+  return out.join('/') + ((file.constructor.name === 'Directory') ? '/' : '');
+}
+
 export {
   FileException,
   PermissionOption,
@@ -130,5 +154,6 @@ export {
   Directory,
   Executable,
   TextFile,
-  resolvePath
+  resolvePath,
+  getPathOf
 };

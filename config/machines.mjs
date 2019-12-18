@@ -40,7 +40,8 @@ const fileTreeSkeleton = () => {
     'echo',
     'help',
     'ls',
-    'mv'
+    'mv',
+    'scp'
   ].map(exe);
   
   let defaultBoot = [ // Files that should be in every machine's /boot.
@@ -74,7 +75,7 @@ const machineSetup = game => {
     '127.0.0.1',
     fileTreeSkeleton(),
     generateUserMap({'root': ''}),
-    new SecurityInfo(game, 10, new PortMap({ssh: 22, smtp: 25}), 3)
+    new SecurityInfo(game, 10, new PortMap({ssh: 22, smtp: 25}), 3, ()=>{})
   );
   addTo(localhost, 'bin', ...([
     'brutessh',
@@ -82,6 +83,9 @@ const machineSetup = game => {
     'nidhogg',
     'nmap'
   ].map(exe)));
+  addTo(localhost, 'home',
+    new FileSystem.Directory('downloads', rootOnlyPermissions())
+  );
   internet.set(localhost);
   
   let testServer = new Machine(
@@ -89,7 +93,7 @@ const machineSetup = game => {
     '93.184.216.34',
     fileTreeSkeleton(),
     generateUserMap({'root': 'rosebud'}),
-    new SecurityInfo(game, 60, new PortMap({ssh: 22}), 1)
+    new SecurityInfo(game, 60, new PortMap({ssh: 22}), 1, game=>game.lose())
   );
   addTo(testServer, 'home',
     new FileSystem.File('test.file', rootOnlyPermissions())

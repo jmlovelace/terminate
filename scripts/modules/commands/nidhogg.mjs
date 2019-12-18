@@ -34,7 +34,7 @@ export default command = {
       },
       () => {},
       (game) => {
-        target.login('root', target.users.get('root').password);
+        target.login(game, 'root', target.users.get('root').password);
         refreshInputPrefix(new InputPrefix(game).element);
         progressBar.element.textContent = 'Progress: [##### COMPLETE #####]';
         Terminal.log('Root priveleges successfully attained.');

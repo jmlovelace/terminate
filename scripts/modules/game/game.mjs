@@ -46,7 +46,7 @@ class Game {
     
     // Initializes the user as the machine's admin and sets their directory to
     // the machine's root folder.
-    this.localhost.login('root', '');
+    this.localhost.login(this, 'root', '');
     this.activeMachine = this.localhost;
     this.activeDirectory = this.localhost.root;
   }

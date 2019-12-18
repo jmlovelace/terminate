@@ -1,4 +1,5 @@
 import Timer from '../game/timer.mjs';
+import Terminal from '../io/output.mjs';
 
 class Port {
   constructor(service, number) {
@@ -69,25 +70,31 @@ const activateHardline = game => {
 }
 
 const deactivateHardline = game => {
+  // cover your trail. game.activeMachine should be a given SecurityInfo's parent.
+  if (game.activeMachine.hasDangerousLogs()) setTimeout(()=>game.activeMachine.securityInfo.onCaught(game), Math.floor(Math.random() * 5000) + 5000);
+  
+  Terminal.warn('-- hardline disconnected --');
+  
   game.hardlineActive = false;
   game.overlay.textContent = '';
   game.theme = game.themes.ambient;
 }
 
 class SecurityInfo {
-  constructor (game, seconds, portMap, portsNeeded) {
+  constructor (game, seconds, portMap, portsNeeded, onCaught) {
     this.timer = new Timer(
       game,
       seconds * 100,
       activateHardline,
       game => game.overlay.innerText = (this.timer.remaining / 100).toFixed(2),
       deactivateHardline,
-      game => game.lose()
+      game => this.onCaught(game)
     );
     
     this.seconds = seconds;
     this.ports = portMap;
     this.portsNeeded = portsNeeded; // minimum count of open ports to start crack
+    this.onCaught = onCaught; // what to do if the hardline expires and/or dirty logs are left
   }
   
   startHardline () {

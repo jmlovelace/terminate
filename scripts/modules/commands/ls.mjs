@@ -1,4 +1,5 @@
 import Terminal from '../io/output.mjs';
+import {PermissionOption} from '../os/filesystem.mjs';
 
 let command;
 // This command, ls, prints the contents of the current working directory.
@@ -6,7 +7,17 @@ export default command = {
   execute: async (game, args) => {
     let showAll = (args[1] === '-a' || args[1] === '-all');
     
-    for (let filename of game.activeDirectory.children.keys()) {
+    if (game.activeMachine.activeUser.username !== 'root') {
+      let dirPerms = game.activeDirectory.permissions.get(game.activeMachine.activeUser);
+      if (dirPerms === undefined) dirPerms = game.activeDirectory.permissions.get(ANONYMOUS);
+      
+      if (dirPerms.read !== PermissionOption.ALLOWED) {
+        Terminal.error(`${args[0]}: Insufficient permissions to view current directory`);
+        return;
+      }
+    }
+    
+    for (let filename of [...(game.activeDirectory.children.keys())].sort()) {
       // hides files starting with . unless -a is set
       if (!showAll && filename[0] === '.') continue;
       
