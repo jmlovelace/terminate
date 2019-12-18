@@ -8,6 +8,7 @@ import Commands from './commands.mjs';
 const generateUserMap = userDict => {
   let out = new Map();
   for (let user of Object.keys(userDict)) out.set(user, new User(user, userDict[user]));
+  out.set('anonymous', ANONYMOUS);
   return out;
 }
 
@@ -22,21 +23,25 @@ const rootOnlyPermissions = () => {
   return out;
 }
 
+const exe = cmdName => {
+  return new FileSystem.Executable(cmdName, rootOnlyPermissions(), cmdName)
+}
+
+
 const addTo = (machine, folderName, ...files) => {
-  let dir = machine.root.children.get(folderName);
-  for (let file of files) dir.addFile(file);
+  files.forEach(file => machine.root.children.get(folderName).addFile(file));
 }
 
 // This helper function will create a basic *NIX-like file tree.
 const fileTreeSkeleton = () => {
   let defaultCommands = [ // Commands that should be in every machine's /bin.
-    new FileSystem.Executable('cd', rootOnlyPermissions(), 'cd'),
-    new FileSystem.Executable('clear', rootOnlyPermissions(), 'clear'),
-    new FileSystem.Executable('echo', rootOnlyPermissions(), 'echo'),
-    new FileSystem.Executable('help', rootOnlyPermissions(), 'help'),
-    new FileSystem.Executable('ls', rootOnlyPermissions(), 'ls'),
-    new FileSystem.Executable('mv', rootOnlyPermissions(), 'mv'),
-  ];
+    'cd',
+    'clear',
+    'echo',
+    'help',
+    'ls',
+    'mv'
+  ].map(exe);
   
   let defaultBoot = [ // Files that should be in every machine's /boot.
     new FileSystem.File('boot.ini', rootOnlyPermissions())
@@ -61,7 +66,7 @@ const fileTreeSkeleton = () => {
 // commands that should exist on every machine
 
 
-const MachineSetup = game => {
+const machineSetup = game => {
   let internet = new Internet();
 
   let localhost = new Machine(
@@ -71,9 +76,12 @@ const MachineSetup = game => {
     generateUserMap({'root': ''}),
     new SecurityInfo(game, 10, new PortMap({ssh: 22, smtp: 25}), 3)
   );
-  addTo(localhost, 'bin',
-    new FileSystem.Executable('hardline', rootOnlyPermissions(), 'hardline')
-  );
+  addTo(localhost, 'bin', ...([
+    'brutessh',
+    'hardline',
+    'nidhogg',
+    'nmap'
+  ].map(exe)));
   internet.set(localhost);
   
   let testServer = new Machine(
@@ -91,4 +99,4 @@ const MachineSetup = game => {
   return internet;
 }
 
-export default MachineSetup;
+export default machineSetup;

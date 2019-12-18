@@ -2,7 +2,8 @@
 
 // Kehehe.
 
-import MachineSetup from '../../../config/machines.mjs';
+import machineSetup from '../../../config/machines.mjs';
+import ProcessList from '../os/processes.mjs';
 import Themes from '../../../config/themes.mjs';
 import Terminal from '../io/output.mjs';
 
@@ -20,17 +21,25 @@ class Game {
     // Set initial state variables
     this.activeDirectory;     // Directory object
     this.activeMachine;       // Machine object
-    this.commandHistory;      // Array
+    this.commandHistory;      // String[]
     this.commandHistoryIndex; // Int
     this.internet;            // Internet object
     this.localhost;           // Machine object
+    this.hardlineActive;      // Boolean
+    this.processes;           // ProcessList
     
     // Initialize the game's command history, which will hold user inputs
     this.commandHistory = [];
     this.commandHistoryIndex = -1;
     
+    // Initialize the game's process list, which holds running processes
+    this.processes = new ProcessList();
+    
+    // Don't start in hardline.
+    this.hardlineActive = false;
+    
     // Initialize the game's Internet object, which will hold its machines
-    this.internet = MachineSetup(this);
+    this.internet = machineSetup(this);
     
     // Marks the new machine as the user's.
     this.localhost = this.internet.get('127.0.0.1');

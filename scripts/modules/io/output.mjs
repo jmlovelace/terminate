@@ -23,9 +23,12 @@ class Entry {
   
   // Pushes the filled element to the on-screen terminal.
   publish () {
-    document.getElementById('terminal').insertBefore(
+    this.element = document.getElementById('terminal').insertBefore(
       this.element, document.getElementById('terminal-input-wrapper')
     );
+    let wrapper = document.getElementById('terminal-wrapper');
+    wrapper.scrollTop = wrapper.scrollHeight;
+    return this;
   }
 }
 
@@ -89,13 +92,13 @@ class InputPrefix {
 // The object that'll actually receive any output and give it the appropriate
 // class.
 const Terminal = { // styles is an optional stylesObj (listed w/ default val undefined to clarify)
-  log: (message, styles=undefined) => {new Entry('log', styles).populate(message).publish()},
+  log: (message, styles=undefined) => new Entry('log', styles).populate(message).publish(),
   
-  warn: (message, styles=undefined) => {new Entry('warn', styles).populate(message).publish()},
+  warn: (message, styles=undefined) => new Entry('warn', styles).populate(message).publish(),
   
-  error: (message, styles=undefined) => {new Entry('err', styles).populate(message).publish()},
+  error: (message, styles=undefined) => new Entry('err', styles).populate(message).publish(),
   
-  history: (prefix, command) => {new HistoryEntry(prefix, command).publish()}
+  history: (prefix, command) => new HistoryEntry(prefix, command).publish()
 };
 
 const refreshInputPrefix = prefix => {
@@ -105,8 +108,6 @@ const refreshInputPrefix = prefix => {
   } catch (typeError) { // If it hasn't been initialized yet
     document.getElementById('terminal-input-path').append(prefix);
   }
-  let wrapper = document.getElementById('terminal-wrapper');
-  wrapper.scrollTop = wrapper.scrollHeight;
 }
 
 export default Terminal;

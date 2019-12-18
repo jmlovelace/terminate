@@ -1,6 +1,7 @@
 class Timer {
   constructor(game, centiseconds, onStart, onUpdate, onEnd, onExpire) {
     this.game = game;
+    this.totalDuration = centiseconds;
     this.remaining = centiseconds; // (int) time left in hundredths of a second
     
     // Functions:
@@ -23,16 +24,17 @@ class Timer {
         this.remaining--;
         this.onUpdate(this.game);
         if (this.remaining <= 0) {
-          this.stop(this.game);
           this.onExpire(this.game);
+          this.stop();
         }
       },
-      10
+      9 // allows a slight bit longer for other commands to clear.
     );
   }
   
   pause () {
-    clearInterval(this.countdown);
+    // If you're asking "what the LISP?", just know that "this" is a bad keyword
+    clearInterval((()=>this.countdown)());
     this.countdown = null;
   }
   
@@ -40,6 +42,10 @@ class Timer {
     this.pause();
     this.remaining = 0;
     this.onEnd(this.game);
+  }
+  
+  getElapsed () {
+    return (this.totalDuration - this.remaining) / this.totalDuration;
   }
 }
 

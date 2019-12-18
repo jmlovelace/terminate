@@ -7,7 +7,7 @@ class Machine {
     this.hostname = hostname;
     this.ip = ip;
     this.root = rootDirectory;
-    this.users = userMap;   // Holds a username/password map of user credentials
+    this.users = userMap; // Holds a username/password map of user credentials
     this.activeUser = ANONYMOUS;
     this.securityInfo = securityInfo;
   }
@@ -23,7 +23,21 @@ class Machine {
   }
   
   // Logs out of the machine (by resetting its active user to the default).
-  logout () {this.activeUser = ANONYMOUS;}
+  logout () {
+    this.activeUser = ANONYMOUS;
+  }
+  
+  connect (game) {
+    game.activeMachine = this;
+    game.activeDirectory = this.root;
+  }
+  
+  disconnect (game) {
+    this.logout();
+    this.securityInfo.refresh();
+    game.localhost.connect(game);
+    game.localhost.login('root', '');
+  }
 }
 
 export default Machine;

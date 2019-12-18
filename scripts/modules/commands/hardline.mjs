@@ -4,7 +4,16 @@ let command;
 
 export default command = {
   execute: async (game, args) => {
-    let target = game.internet.get(args[1]);
+    if (args[1] === '--disconnect' || args[1] === '-d') {
+      if (!game.hardlineActive) {
+        Terminal.error(`${args[0]}: No hardline connection to close`);
+        return;
+      }
+      game.activeMachine.securityInfo.stopHardline();
+      game.activeMachine.disconnect(game);
+      return;
+    }
+    let target = (args[1]) ? game.internet.get(args[1]) : game.activeMachine;
     if (!target) target = game.internet.get(game.internet.resolve(args[1]));
     
     if (!target) {
@@ -12,6 +21,7 @@ export default command = {
       return;
     }
     
+    target.connect(game);
     target.securityInfo.startHardline();
   },
   

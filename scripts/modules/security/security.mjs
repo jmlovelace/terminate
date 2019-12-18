@@ -32,6 +32,10 @@ class PortMap {
     }
   }
   
+  getPort (service) {
+    return this.ports.get(service);
+  }
+  
   getPorts () {
     let out = [];
     
@@ -47,23 +51,26 @@ class PortMap {
     let out = 0;
     for (let portKey of this.ports.keys()) {
       let port = this.ports.get(portKey);
-      return (port.number && port.open); // all nonzero open ports
+      if (port.number && port.open) out++; // all nonzero open ports
     }
+    return out;
   }
   
   refresh () { // Closes all ports
-    for (let port of this.ports.keys()) {
-      this.ports.get(port).open = false;
+    for (let portKey of this.ports.keys()) {
+      this.ports.get(portKey).open = false;
     }
   }
 }
 
 const activateHardline = game => {
   game.theme = game.themes.hardline;
+  game.hardlineActive = true;
 }
 
 const deactivateHardline = game => {
-  game.overlay.innerText = '';
+  game.hardlineActive = false;
+  game.overlay.textContent = '';
   game.theme = game.themes.ambient;
 }
 
@@ -84,13 +91,22 @@ class SecurityInfo {
   }
   
   startHardline () {
-    this.refreshTimer();
-    this.ports.refresh();
+    this.refresh();
     this.timer.start();
+  }
+  
+  stopHardline () {
+    this.timer.stop();
+    this.refresh();
   }
   
   refreshTimer () {
     this.timer.remaining = this.seconds * 100;
+  }
+  
+  refresh () {
+    this.refreshTimer();
+    this.ports.refresh();
   }
   
   canCrack () {
