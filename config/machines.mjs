@@ -35,6 +35,7 @@ const addTo = (machine, folderName, ...files) => {
 // This helper function will create a basic *NIX-like file tree.
 const fileTreeSkeleton = () => {
   let defaultCommands = [ // Commands that should be in every machine's /bin.
+    'cat',
     'cd',
     'clear',
     'echo',

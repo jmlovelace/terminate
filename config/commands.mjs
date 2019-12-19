@@ -1,5 +1,6 @@
 // Import the commands from ../scripts/modules/commands here.
-import brutessh from '../scripts/modules/commands/brutessh.mjs'
+import brutessh from '../scripts/modules/commands/brutessh.mjs';
+import cat from '../scripts/modules/commands/cat.mjs';
 import cd from '../scripts/modules/commands/cd.mjs';
 import clear from '../scripts/modules/commands/clear.mjs';
 import echo from '../scripts/modules/commands/echo.mjs';
@@ -18,6 +19,7 @@ let commands = (() => {
   
   // Add commands to the command dictionary here.
   out.set('brutessh', brutessh);
+  out.set('cat', cat);
   out.set('cd', cd);
   out.set('clear', clear);
   out.set('echo', echo);
