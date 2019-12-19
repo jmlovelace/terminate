@@ -10,10 +10,11 @@ class Themes {
     this.list = new Map();
     
     // CONFIG
-    const themeDir = '../styles/themes/';
+    //   Directories are relative to index.html!
+    const themeDir = './styles/themes/';
     const themeExt = 'css';
     
-    const faviconDir = '../media/favicons/';
+    const faviconDir = './media/favicons/';
     const faviconExt = 'ico';
     this.faviconRes = ['16', '32'];
     
