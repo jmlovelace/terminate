@@ -8,6 +8,7 @@ function trapFocus (event, targetElement) {
 
 // This function is used to pass the contents of an input field as a command.
 async function processKeystrokes (key, game, element) {
+  if (!(game.music.hasPlaying)) game.music.play('ambient');
   if (key.code === 'Enter' && element.value !== '') execute(game, element);
   if (key.code === 'ArrowUp') browseHistory(game, element, 1);
   if (key.code === 'ArrowDown') browseHistory(game, element, -1);

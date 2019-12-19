@@ -6,7 +6,7 @@ let command;
 
 export default command = {
   execute: async (game, args) => {
-    let path = args[1];
+    let path = args[1].trim();
     let all;
     
     if (path[path.length - 1] === '*') {
@@ -72,7 +72,7 @@ export default command = {
         let progress = `Progress: [${bar}${' '.repeat(20-bar.length)}]`;
         if (progressBar.element.textContent !== progress) progressBar.element.textContent = progress;
       }
-      
+      if (itemsRemoved === eligibleFiles.length) progressBar.element.textContent = 'Progress: [##### COMPLETE #####]';
       Terminal.log('Done removing files.');
       return;
     }
@@ -80,7 +80,7 @@ export default command = {
     // Single-deletion mode.
     let file;
     try {
-      file = resolvePath(path);
+      file = resolvePath(game, path);
     } catch (e) {
       switch (e) {
         case (FileException.NotExists):

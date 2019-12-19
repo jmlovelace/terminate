@@ -7,16 +7,16 @@ export default command = {
     crackPort(
       game,
       args[0],
-      'ssh',
+      'http',
       args[1],
-      'brute force',
-      8,
-      0
+      'impersonation',
+      14,
+      1
     );
   },
   
   help: filename =>
 `${filename}: ${filename} <port>
-  Launches a brute-force attack against an SSH server listening on PORT.
+  Spoofs privileged IPs through an HTTP server listening on PORT, opening it.
   Requires a hardline connection to the target host.`
 }

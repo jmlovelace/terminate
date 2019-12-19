@@ -6,6 +6,9 @@ import machineSetup from '../../../config/machines.mjs';
 import ProcessList from '../os/processes.mjs';
 import themes from '../../../config/themes.mjs';
 import Terminal from '../io/output.mjs';
+import backgroundMusic from '../../../config/tracks.mjs';
+import {TextFile, Permission, PermissionOption, resolvePath} from '../os/filesystem.mjs';
+import {ANONYMOUS} from '../os/users.mjs';
 
 // This object holds the game's global state.
 class Game {
@@ -13,9 +16,10 @@ class Game {
     // Verbose Logging: prints extra data to the console for debugging purposes
     this.verboseLogging = (enableVerboseLogging === true); // force bool true; false otherwise
     
-    // DOM stuff
+    // UX stuff
     this.overlay = document.getElementById('terminal-overlay');
     this.themes = themes;
+    this.music = backgroundMusic;
     
     this.theme = 'ambient';
     
@@ -62,6 +66,24 @@ class Game {
   
   lose () {
     Terminal.warn("Lose!");
+  }
+  
+  sendMail (name, text) {
+    resolvePath(this, '/home/mail', true, this.localhost, this.localhost.root)
+      .addFile(
+        new TextFile(
+          `${name}.mail`,
+          new Map().set(ANONYMOUS, new Permission(
+            PermissionOption.DISALLOWED,
+            PermissionOption.DISALLOWED,
+            PermissionOption.DISALLOWED,
+          )),
+          text
+        )
+      )
+    ;
+    
+    Terminal.warn('You have new mail.');
   }
 }
 

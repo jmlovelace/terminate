@@ -25,6 +25,16 @@ class File {
     this.parent = null;
     this.filename = filename; // last slash-delimited token
     this.permissions = permissions;
+    
+    this.commandsTouched = new Map();
+  }
+  
+  logCommand (name) {
+    this.commandsTouched.set(name, Date.now());
+  }
+  
+  touchedBy (name) {
+    return this.commandsTouched.has(name);
   }
   
   copyOf () {
@@ -47,7 +57,8 @@ class Directory extends File {
   addFile(file) {
     file.parent = this;
     if (file.constructor.name === 'Directory') file.children.set('..', file.parent);
-    return this.children.set(file.filename, file);
+    this.children.set(file.filename, file);
+    return this;
   }
   
   // Unmarks the file as a child.
@@ -99,7 +110,7 @@ const FileException = Object.freeze({
 });
 
 // Resolves file paths into the File object located there.
-const resolvePath = (game, path, forceDirectory = false) => {
+const resolvePath = (game, path, forceDirectory = false, baseMachine = game.activeMachine, baseDirectory = game.activeDirectory) => {
   let workingDirectory;
   let directories = path.trim();
   
@@ -111,10 +122,10 @@ const resolvePath = (game, path, forceDirectory = false) => {
   // isn't a directory. don't try this at home, kids.
   if (forceDirectory) directories.push('.');
   if (directories[0] === '') {
-    workingDirectory = game.activeMachine.root;
+    workingDirectory = baseMachine.root;
     directories.shift(); // remove the pointer to root
   } else {
-    workingDirectory = game.activeDirectory;
+    workingDirectory = baseDirectory;
   }
 
   for (let directory of directories) {

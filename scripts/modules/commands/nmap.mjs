@@ -17,7 +17,7 @@ export default command = {
 Not shown: ${Math.floor(Math.random() * 200) + 800} filtered ports
 PORT      STATE     SERVICE
 ${target.securityInfo.ports.getPorts().reduce((acc, port) =>
-  acc += `${port.number}/tcp${' '.repeat(5 - Math.floor(Math.log10(port.number)))}${port.open ? 'open ' : 'closed'}     ${port.service}
+  acc += `${port.number}/tcp${' '.repeat(5 - Math.floor(Math.log10(port.number)))}${port.open ? 'open  ' : 'closed'}    ${port.service}
 `, '')}
 Open ports required to crack: ${target.securityInfo.portsNeeded}`
     );

@@ -67,13 +67,17 @@ class PortMap {
 const activateHardline = game => {
   game.theme = 'hardline';
   game.hardlineActive = true;
+  game.music.play('hardline');
 }
 
 const deactivateHardline = game => {
   // cover your trail. game.activeMachine should be a given SecurityInfo's parent.
   let target = game.activeMachine;
-  if (target.hasDangerousLogs()) setTimeout(
-    () => target.securityInfo.onCaught(game),
+  setTimeout(
+    ((target.hasDangerousLogs()) ?
+      () => target.securityInfo.onCaught(game)
+    : () => target.securityInfo.onDisconnect(game, target)
+    ),
     Math.floor(Math.random() * 5000) + 5000
   );
   
@@ -82,10 +86,11 @@ const deactivateHardline = game => {
   game.hardlineActive = false;
   game.overlay.textContent = '';
   game.theme = 'ambient';
+  game.music.play('ambient');
 }
 
 class SecurityInfo {
-  constructor (game, seconds, portMap, portsNeeded, onCaught) {
+  constructor (game, seconds, portMap, portsNeeded, onCaught, onDisconnect) {
     this.timer = new Timer(
       game,
       seconds * 100,
@@ -99,6 +104,7 @@ class SecurityInfo {
     this.ports = portMap;
     this.portsNeeded = portsNeeded; // minimum count of open ports to start crack
     this.onCaught = onCaught; // what to do if the hardline expires and/or dirty logs are left
+    this.onDisconnect = onDisconnect;
   }
   
   startHardline () {

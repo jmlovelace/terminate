@@ -38,6 +38,8 @@ export default command = {
       }
     }
     
+    file.logCommand('cat');
+    
     if (file.constructor.name !== 'TextFile') {
       let binaryDump = `${' '.repeat(79)}\n`.repeat(20).split('\n');
       binaryDump.pop();

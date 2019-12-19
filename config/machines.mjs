@@ -4,7 +4,12 @@ import * as FileSystem  from '../scripts/modules/os/filesystem.mjs';
 import {User, ANONYMOUS} from '../scripts/modules/os/users.mjs';
 import {SecurityInfo, PortMap} from '../scripts/modules/security/security.mjs';
 import Commands from './commands.mjs';
+import Terminal from '../scripts/modules/io/output.mjs';
 
+// 
+const NO_ACTION = () => {};
+
+// Generates a proper UserMap from a dictionary of username:password pairs
 const generateUserMap = userDict => {
   let out = new Map();
   for (let user of Object.keys(userDict)) out.set(user, new User(user, userDict[user]));
@@ -23,13 +28,20 @@ const rootOnlyPermissions = () => {
   return out;
 }
 
+// Shortened executable constructor
 const exe = cmdName => {
   return new FileSystem.Executable(cmdName, rootOnlyPermissions(), cmdName)
 }
 
-
-const addTo = (machine, folderName, ...files) => {
-  files.forEach(file => machine.root.children.get(folderName).addFile(file));
+// Quick way to add a bunch of files to a particular directory
+const addTo = (game, machine, folderName, ...files) => {
+  let dir;
+  try {
+    dir = FileSystem.resolvePath(game, folderName, true, machine, machine.root);
+  } catch (e) {
+    console.error(`${machine.hostname}:${folderName} -- ${e}`);
+  }
+  files.forEach(file => dir.addFile(file));
 }
 
 // This helper function will create a basic *NIX-like file tree.
@@ -79,25 +91,64 @@ const machineSetup = game => {
     generateUserMap({'root': ''}),
     new SecurityInfo(game, 10, new PortMap({ssh: 22, smtp: 25}), 3, ()=>{})
   );
-  addTo(localhost, 'bin', ...([
-    'brutessh',
+  addTo(game, localhost, '/bin', ...([
+    'ftpbounce',
     'hardline',
+    'httpspoof',
     'nidhogg',
-    'nmap'
+    'nmap',
+    'smtprelay',
+    'sqlcorrupt',
+    'sshbrute',
+    'sslbleed',
+    'torrentpoison'
   ].map(exe)));
-  addTo(localhost, 'home',
-    new FileSystem.Directory('downloads', rootOnlyPermissions())
+  addTo(game, localhost, '/home',
+    new FileSystem.Directory('downloads', rootOnlyPermissions()),
+    new FileSystem.Directory('mail', rootOnlyPermissions())
   );
   internet.set(localhost);
   
   let testServer = new Machine(
-    'testserver.net',
+    'test',
     '93.184.216.34',
     fileTreeSkeleton(),
     generateUserMap({'root': 'rosebud'}),
-    new SecurityInfo(game, 120, new PortMap({ssh: 22}), 1, game=>game.lose())
+    new SecurityInfo(
+      game,
+      120,
+      new PortMap({
+        ftp: 21,
+        ssh: 22,
+        smtp: 25,
+        http: 80,
+        ssl: 443,
+        sql: 1433,
+        torrent: 6881
+      }),
+      1,
+      game => game.lose(),
+      (game, target) => {
+        let testfile;
+        try {
+          testfile = FileSystem.resolvePath(
+            game,
+            '/home/test.file',
+            false,
+            target,
+            target.root
+          );
+        } catch (e) {
+          Terminal.warn('Ya probably shouldn\'t have deleted test.file...');
+          return;
+        }
+        
+        if (testfile.touchedBy('cat')) game.sendMail('test', 'you did it');
+      }
+    )
   );
-  addTo(testServer, 'home',
+  addTo(game, testServer, '/home',
+    new FileSystem.Directory('mail', rootOnlyPermissions()),
     new FileSystem.File('test.file', rootOnlyPermissions())
   );
   internet.set(testServer);
