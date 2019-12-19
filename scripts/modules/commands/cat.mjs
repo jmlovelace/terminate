@@ -5,11 +5,11 @@ let command;
 
 export default command = {
   execute: async (game, args) => {
-    let path = args[0];
+    let path = args[1];
     
     let file;
     try {
-      file = resolvePath(path);
+      file = resolvePath(game, path);
     } catch (e) {
       switch (e) {
         case (FileException.NotExists):
@@ -39,7 +39,10 @@ export default command = {
     }
     
     if (file.constructor.name !== 'TextFile') {
-      Terminal.log(`${`${Math.round(Math.random())}`.repeat(80)}${'\n'}`.repeat(20));
+      let binaryDump = `${' '.repeat(79)}\n`.repeat(20).split('\n');
+      binaryDump.pop();
+      binaryDump = binaryDump.map(str => str.split(' '));
+      Terminal.log(binaryDump.map(arr => arr.map(str => Math.round(Math.random())).join('')).join('\n'));
       return;
     }
     
