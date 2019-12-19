@@ -20,7 +20,7 @@ class Timer {
   start () {
     this.onStart(this.game);
     this.countdown = setInterval(
-      () => {
+      async () => { // Marking this as async means it doesn't delay the timer.
         this.remaining--;
         this.onUpdate(this.game);
         if (this.remaining <= 0) {
@@ -28,7 +28,7 @@ class Timer {
           this.stop();
         }
       },
-      9 // allows a slight bit longer for other commands to clear.
+      10
     );
   }
   

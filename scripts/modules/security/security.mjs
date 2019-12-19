@@ -65,19 +65,23 @@ class PortMap {
 }
 
 const activateHardline = game => {
-  game.theme = game.themes.hardline;
+  game.theme = 'hardline';
   game.hardlineActive = true;
 }
 
 const deactivateHardline = game => {
   // cover your trail. game.activeMachine should be a given SecurityInfo's parent.
-  if (game.activeMachine.hasDangerousLogs()) setTimeout(()=>game.activeMachine.securityInfo.onCaught(game), Math.floor(Math.random() * 5000) + 5000);
+  let target = game.activeMachine;
+  if (target.hasDangerousLogs()) setTimeout(
+    () => target.securityInfo.onCaught(game),
+    Math.floor(Math.random() * 5000) + 5000
+  );
   
   Terminal.warn('-- hardline disconnected --');
   
   game.hardlineActive = false;
   game.overlay.textContent = '';
-  game.theme = game.themes.ambient;
+  game.theme = 'ambient';
 }
 
 class SecurityInfo {

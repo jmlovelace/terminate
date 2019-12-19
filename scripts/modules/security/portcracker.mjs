@@ -7,7 +7,8 @@ const crackPort = async (game, cmdName, service, port, attackName, runDuration, 
     return;
   }
   
-  let activePort = game.activeMachine.securityInfo.ports.getPort(service);
+  let target = game.activeMachine;
+  let activePort = target.securityInfo.ports.getPort(service);
   
   if (Number(port) === 0 || Number(port) !== activePort.number) {
     Terminal.error(`${cmdName}: Port ${port} does not have a listening ${service} service active.`);
@@ -27,6 +28,14 @@ const crackPort = async (game, cmdName, service, port, attackName, runDuration, 
     runDuration * 100,
     () => {},
     () => {
+      if (game.activeMachine !== target) {
+        progressBar.element.textContent = 'Progress: [!!!!! CANCELED !!!!!]';
+        Terminal.error(`${cmdName}: Connection lost.`);
+        runtimeTimer.stop();
+        runtimeTimer.remaining = 1; // keeps onExpire from firing
+        return;
+      }
+      
       let bar = '#'.repeat(Math.ceil(runtimeTimer.getElapsed() * 20));
       let progress = `Progress: [${bar}${' '.repeat(20 - bar.length)}]`;
       if (progressBar.element.textContent !== progress) progressBar.element.textContent = progress;
@@ -36,6 +45,13 @@ const crackPort = async (game, cmdName, service, port, attackName, runDuration, 
       activePort.open = true;
       progressBar.element.textContent = 'Progress: [##### COMPLETE #####]';
       Terminal.log(`${service} port ${port} opened`);
+      target.addLog(
+        game,
+        'port',
+        `${game.localhost}: Opened port ${port}`,
+        true
+      );
+      
       setTimeout(() => game.processes.killProcess(pid), spindownDuration * 1000);
     }
   );

@@ -41,6 +41,7 @@ const fileTreeSkeleton = () => {
     'help',
     'ls',
     'mv',
+    'rm',
     'scp'
   ].map(exe);
   
@@ -93,7 +94,7 @@ const machineSetup = game => {
     '93.184.216.34',
     fileTreeSkeleton(),
     generateUserMap({'root': 'rosebud'}),
-    new SecurityInfo(game, 60, new PortMap({ssh: 22}), 1, game=>game.lose())
+    new SecurityInfo(game, 120, new PortMap({ssh: 22}), 1, game=>game.lose())
   );
   addTo(testServer, 'home',
     new FileSystem.File('test.file', rootOnlyPermissions())

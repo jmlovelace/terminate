@@ -37,7 +37,7 @@ class Machine {
   
   disconnect (game) {
     this.logout();
-    this.addLog(game, 'disconnect', `Connection from ${game.localhost.ip} closed`, false);
+    this.addLog(game, 'connection', `Connection from ${game.localhost.ip} closed`, false);
     this.securityInfo.refresh();
     game.localhost.connect(game);
     game.localhost.login(game, 'root', '');

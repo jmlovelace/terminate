@@ -4,7 +4,7 @@
 
 import machineSetup from '../../../config/machines.mjs';
 import ProcessList from '../os/processes.mjs';
-import Themes from '../../../config/themes.mjs';
+import themes from '../../../config/themes.mjs';
 import Terminal from '../io/output.mjs';
 
 // This object holds the game's global state.
@@ -15,8 +15,9 @@ class Game {
     
     // DOM stuff
     this.overlay = document.getElementById('terminal-overlay');
-    this.themes = Themes;
-    this.theme = this.themes.ambient;
+    this.themes = themes;
+    
+    this.theme = 'ambient';
     
     // Set initial state variables
     this.activeDirectory;     // Directory object
@@ -50,14 +51,9 @@ class Game {
     this.activeMachine = this.localhost;
     this.activeDirectory = this.localhost.root;
   }
-  
-  get theme() {
-    return this._theme;
-  }
-  
+
   set theme(value) {
-    this._theme = value;
-    document.getElementById('theme').setAttribute('href', this._theme);
+    this.themes.setTheme(value);
   }
   
   win () {

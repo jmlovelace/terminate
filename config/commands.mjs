@@ -9,6 +9,7 @@ import ls from '../scripts/modules/commands/ls.mjs';
 import mv from '../scripts/modules/commands/mv.mjs';
 import nidhogg from '../scripts/modules/commands/nidhogg.mjs';
 import nmap from '../scripts/modules/commands/nmap.mjs';
+import rm from '../scripts/modules/commands/rm.mjs';
 import scp from '../scripts/modules/commands/scp.mjs';
 
 // This'll hold all the game's user-executable commands by name.
@@ -26,6 +27,7 @@ let commands = (() => {
   out.set('mv', mv);
   out.set('nidhogg', nidhogg);
   out.set('nmap', nmap);
+  out.set('rm', rm);
   out.set('scp', scp);
   
   return out;
