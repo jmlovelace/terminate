@@ -17,22 +17,21 @@ export default command = {
     }
     
     if (all) {
+      if (path === '') path = './';
+      
       let dir;
-      if (path === '') dir = game.activeDirectory;
-      else {
-        try {
-          dir = resolvePath(game, path, true);
-        } catch (e) {
-          switch (e) {
-            case (FileException.NotExists):
-            case (FileException.NotDirectory):
-              Terminal.error(
-                `${args[0]}: cannot remove contents of '${path}': No such directory`
-              );
-              return;
-            default: // uh oh, this shouldn't happen, throw it up the chain
-              throw e;
-          }
+      try {
+        dir = resolvePath(game, path, true);
+      } catch (e) {
+        switch (e) {
+          case (FileException.NotExists):
+          case (FileException.NotDirectory):
+            Terminal.error(
+              `${args[0]}: cannot remove contents of '${path}': No such directory`
+            );
+            return;
+          default: // uh oh, this shouldn't happen, throw it up the chain
+            throw e;
         }
       }
       
@@ -110,6 +109,8 @@ export default command = {
     }
     
     file.parent.removeFile(file);
+    
+    game.missions['Terminal Tutorial'].tryComplete(game);
   },
   
   help: filename =>

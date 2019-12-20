@@ -86,7 +86,9 @@ class Executable extends File {
   }
   
   copyOf () {
-    return new this.constructor(this.filename, this.permissions, this.program);
+    let out = new this.constructor(this.filename, this.permissions);
+    out.program = this.program;
+    return out;
   }
 }
 

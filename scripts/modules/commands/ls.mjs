@@ -17,20 +17,37 @@ export default command = {
       }
     }
     
-    for (let filename of [...(game.activeDirectory.children.keys())].sort()) {
+    for (let filename of [...(game.activeDirectory.children.keys())].sort(
+      (a,b) => {
+        let val = x => {
+          let aV = game.activeDirectory.children.get(x);
+          switch ((aV===null)?'Directory':aV.constructor.name) {
+            case 'Directory':
+              return 1 << 30;
+            case 'Executable':
+              return 1 << 15;
+            default:
+              return 0;
+          }
+        }
+        return a.localeCompare(b) + val(b) - val(a);
+      }
+    )) {
       // hides files starting with . unless -a is set
       if (!showAll && filename[0] === '.') continue;
       
       let outputName = filename;
       let outputStyle = undefined;
       
+      let aV = game.activeDirectory.children.get(filename);
+      
       // Here we labelled the switch, to make it clear which block is being broken
-      decorators: switch (game.activeDirectory.children.get(filename).constructor.name) { // decorate based on file type
-        case ('Directory'):
+      decorators: switch ((aV===null)?'Directory':aV.constructor.name) { // decorate based on file type
+        case 'Directory':
           outputName += '/';
           outputStyle = {'color': 'var(--accent-secondary)', 'font-weight': 'bold'};
           break decorators;
-        case ('Executable'):
+        case 'Executable':
           outputStyle = {'color': 'var(--accent-primary)'}
           break decorators;
       }

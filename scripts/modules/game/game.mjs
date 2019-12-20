@@ -3,6 +3,7 @@
 // Kehehe.
 
 import machineSetup from '../../../config/machines.mjs';
+import missions from '../../../config/missions.mjs';
 import ProcessList from '../os/processes.mjs';
 import themes from '../../../config/themes.mjs';
 import Terminal from '../io/output.mjs';
@@ -28,9 +29,10 @@ class Game {
     this.activeMachine;       // Machine object
     this.commandHistory;      // String[]
     this.commandHistoryIndex; // Int
+    this.hardlineActive;      // Boolean
     this.internet;            // Internet object
     this.localhost;           // Machine object
-    this.hardlineActive;      // Boolean
+    this.missions;            // Missions dictionary
     this.processes;           // ProcessList
     
     // Initialize the game's command history, which will hold user inputs
@@ -43,6 +45,9 @@ class Game {
     // Don't start in hardline.
     this.hardlineActive = false;
     
+    // Fetch the missions.
+    this.missions = missions;
+    
     // Initialize the game's Internet object, which will hold its machines
     this.internet = machineSetup(this);
     
@@ -54,18 +59,32 @@ class Game {
     this.localhost.login(this, 'root', '');
     this.activeMachine = this.localhost;
     this.activeDirectory = this.localhost.root;
+    
+    this.missions['Terminal Tutorial'].start(this);
   }
 
   set theme(value) {
     this.themes.setTheme(value);
   }
   
-  win () {
-    Terminal.warn("Win!");
+  async win () {
+    this.music.nowPlaying.stop();
+    document.getElementById('terminal-wrapper').remove();
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    let page = window.location.href.split('/');
+    page.pop();
+    page.push('win.html');
+    window.location.href = page.join('/');
   }
   
-  lose () {
-    Terminal.warn("Lose!");
+  async lose () {
+    this.music.nowPlaying.stop();
+    document.getElementById('terminal-wrapper').remove();
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    let page = window.location.href.split('/');
+    page.pop();
+    page.push('lose.html');
+    window.location.href = page.join('/');
   }
   
   sendMail (name, text) {

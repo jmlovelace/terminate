@@ -76,7 +76,7 @@ const deactivateHardline = game => {
   setTimeout(
     ((target.hasDangerousLogs()) ?
       () => target.securityInfo.onCaught(game)
-    : () => target.securityInfo.onDisconnect(game, target)
+    : () => target.securityInfo.onDisconnect(game)
     ),
     Math.floor(Math.random() * 5000) + 5000
   );

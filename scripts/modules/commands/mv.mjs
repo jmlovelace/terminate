@@ -26,8 +26,10 @@ export default command = {
     try {
       dest = args[2].split('/');
       destName = dest.pop();
+      if (dest.length === 0) dest = '.';
       dest = resolvePath(game, dest.join('/'));
-      if (dest === null) dest = resolvePath(game, '.');
+      if (dest === null) dest = resolvePath(game, '/');
+      console.log(dest, destName);
       if (dest.children.get(destName) && dest.children.get(destName).constructor.name === 'Directory') {
         dest = dest.children.get(destName);
         destName = source.filename;
@@ -57,6 +59,8 @@ export default command = {
         return;
       }
     }
+    
+    console.log(destName);
     
     source.parent.removeFile(source);
     source.filename = destName;
